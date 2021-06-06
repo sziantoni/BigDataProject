@@ -1,0 +1,81 @@
+<html lang="en"  style="background-color: aliceblue">
+<head>
+<title>S3 DATA EXPLORER</title>
+<style>
+	th{
+		text-align: left;
+	}
+	.dataframe{
+		min-width: 406px;
+		text-align: left;
+		margin-left: 37%;
+		margin-top: 2%;
+		float:left;
+	}
+	.title_page{
+		margin-left:0%
+	}
+	.explore_s3{
+	    width: 400px;
+		height: 40px;
+		background-color: #619ea74d;
+		text-align: center;
+		margin-left: 37%;
+	}
+	.query_athena{
+	    width: 400px;
+		height: 40px;
+		background-color: #619ea74d;
+		text-align: center;
+		margin-left: 37%;
+		margin-top:2%;
+	}
+	.action_buttons{
+		float: left;
+		margin-top: 2%;
+		width: 150px;
+		height: 500px;
+	}
+	.act{
+		margin-top: 15%;
+		height: 30px;
+		width: 105px;
+		text-align: left;
+	}
+</style>
+</head>
+<body style = 'text-align: center'>
+	<div class="title_page">
+	<h1>S3 Bucket Explorer</h1>
+	<h3>Simple explorer for data stored in S3 bucket</h3>
+	</div>
+	  {% if table %}
+		{{ table|safe }}
+		  <div>
+			  {% csrf_token %}
+			  <table>
+				{% for word, count in table.items %}
+				  <tr class="td_row">
+					<td class="td_ris">{{ word }}</td>
+					<td class="td_ris">{{ count }}</td>
+				  </tr>
+				{% endfor %}
+			  </table>
+		  </div>
+	  {% else %}
+	  <div class = "explore_s3">
+      <button style = 'text-align: center;margin-top:2%' value="Submit" type="submit" class="show" onclick="location.href='{% url 'table' %}'" >
+		  Click here to see dataset stored in S3 Bucket
+	  </button>
+	  </div>
+	  <div class = "query_athena">
+      <button style = 'text-align: center;margin-top:2%' value="Submit" type="submit" class="show" onclick="location.href='{% url 'athena' %}'" >
+		  Click here to query the dataset with Athena
+	  </button>
+	  </div>
+	  {% endif %}
+
+
+</body>
+
+

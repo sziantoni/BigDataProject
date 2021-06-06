@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: aliceblue">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    th{
+		text-align: left;
+	}
+	td{
+		width: 180px;
+	}
+	.title_page{
+		margin-left:0%;
+		text-align: center;
+	}
+	.dataset_button{
+        text-align: center;
+        float: left;
+        margin-left: 47%;
+        margin-right: 32%;
+	}
+	.dataframe{
+		overflow-y: scroll;
+		overflow-x : hidden;
+		min-height: 200px;
+        max-height: 500px;
+		display: block;
+		width: 400px;
+		float: left;
+    	margin-top: 5%;
+    	margin-left: 5%;
+    	background-color: white;
+	}
+	.action_buttons{
+		float: right;
+		margin-right: 5%;
+		width: 43%;
+		margin-top: 5%;
+	}
+	.query{
+	    float: right;
+	}
+	.td_body{
+	background-color:black;
+
+	}
+	.act{
+		margin-bottom: 2%;
+		margin-right:5px
+	}
+	.cq{
+
+	}
+	.qt{
+		width: 40%;
+		height: 200px;
+		float: right;
+		margin-right: 10%;
+    	margin-top: 5%;
+	}
+	.sb{
+	    float: right;
+		margin-top: 20.5%;
+		margin-right: -40.5%;
+	}
+    </style>
+</head>
+<body style="margin-left: 4%;margin-right:5%">
+<div class="title_page">
+    <h1 style="background-color: #619ea74d;">S3 ATHENA QUERY PAGE</h1>
+	<h3 style="Text-align:left;font-size: 13px;font-weight: unset;background-color: #619ea74d;padding: 5px;">
+		The database is called "result_table". You can use the buttons to make ready-made queries to an S3 bucket via Athena AWS,
+		or you can write your SQL-like query in the text box and then click execute to get the results of the custom query.
+	    Click on "Dataset" to start.</h3>
+    <button class = 'dataset_button' value="Submit" type="submit" class="show" onclick="location.href='{% url 'table_2' %}'">Dataset</button>
+</div>
+
+{% if table %}
+<form method="POST" action="{% url 'custom_q' %}" class = "cq">{% csrf_token %}
+	<textarea class = "qt"  id="query_text" name="query_text"></textarea>
+    <input class = "sb" type="submit" value="Execute">
+</form>
+{{ table|safe }}
+<div class="action_buttons">
+	<button class="act" value="Submit" type="submit" onclick="location.href='{% url 'more_common' %}'" >More common</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'less_common' %}'">Less common</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'a_words' %}'">"A" Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url '3_digit' %}'">3 Digit Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'ing_digit' %}'">-ing Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'big_words' %}'"> >10 Digit Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'freq_words' %}'">Frequency words per rows</button>
+</div>
+{% endif %}
+{% if result %}
+{{ result|safe }}
+<form method="POST" action="{% url 'custom_q' %}" class = "cq">{% csrf_token %}
+	<textarea class = "qt"  id="query_text" name="query_text"></textarea>
+    <input class = "sb" type="submit" value="Execute">
+</form>
+{{ table|safe }}
+<div class="action_buttons">
+	<button class="act" value="Submit" type="submit" onclick="location.href='{% url 'more_common' %}'" >More common</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'less_common' %}'">Less common</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'a_words' %}'">"A" Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url '3_digit' %}'">3 Digit Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'ing_digit' %}'">-ing Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'big_words' %}'"> >10 Digit Words</button>
+	<button  class="act" value="Submit" type="submit" onclick="location.href='{% url 'freq_words' %}'">Frequency words per rows</button>
+</div>
+{% endif %}
+</body>
+</html>
