@@ -443,7 +443,7 @@ import […]
 if __name__ == "__main__":
        data = []
        sc = SparkContext()
-       file_ = sc.textFile("s3a://[NOME DEL BUCKET]/dump.txt")
+       file_ = sc.textFile("s3a://[MY BUCKET]/dump.txt")
 
        counts = file_.map(lambda line: [(i, 1) for i in set(line.split(" "))]).flatMap(lambda x: x).reduceByKey(lambda x, y: x + y).collect()
 
@@ -456,7 +456,7 @@ if __name__ == "__main__":
 
        #fs = s3fs.S3FileSystem(key=[AWS ACCESS KEY ID]', secret=[AWS SECRET KEY ID])
 
-       #with fs.open('s3://resultsziantoni/file_test.csv', 'wb') as f:
+       #with fs.open('s3://[RESULTS BUCKET NAME]/file_test.csv', 'wb') as f:
        #       f.write(btw)
 
        sc.stop()
@@ -465,8 +465,8 @@ if __name__ == "__main__":
 Nello script viene utilizzato sc.textFile per leggere il file da S3. Per poter utilizzare “s3a” dovremo includere questo framework nel comando di submit che verrà esposto a breve, e inoltre avremo bisogno di esportare le nostre credenziali AWS quindi sarà necessario digitare e inviare i comandi:
 
 ```
-export AWS_ACCESS_KEY_ID=[ID AWS]
-export AWS_SECRET_ACCESS_KEY=[CHIAVE SEGRETA AWS]
+export AWS_ACCESS_KEY_ID=[AWS ACCESS KEY ID]
+export AWS_SECRET_ACCESS_KEY=[AWS SECRET KEY ID]
 ```
 
 Entrambe le credenziali si possono trovare nel file scaricato in precedenza nella configurazione della CLI.
@@ -484,7 +484,7 @@ Selezioniamo il nostro gruppo di sicurezza, e nel menù in basso selezioniamo �
 Successivamente sarà possibile visualizzare il cluster avviato nel sito web:
 
 ```
-http://INDIRIZZO_DNS_PUBBLICO_ NAMENODE:8080
+http://INDIRIZZO_DNS_PUBBLICO_NAMENODE:8080
 ```
 
 Se il cluster risulta avviato correttamente, è possibile fare il submit dello script con il comando:
@@ -675,7 +675,7 @@ import […]
 if __name__ == "__main__":
        data = []
        sc = SparkContext()
-       file_ = sc.textFile("s3a://[NOME DEL BUCKET]/dump.txt")
+       file_ = sc.textFile("s3a://[MY BUCKET]/dump.txt")
 
        counts = file_.map(lambda line: [(i, 1) for i in set(line.split(" "))]).flatMap(lambda x: x).reduceByKey(lambda x, y: x + y).collect()
 
@@ -688,7 +688,7 @@ if __name__ == "__main__":
 
        fs = s3fs.S3FileSystem(key=[AWS ACCESS KEY ID]', secret=[AWS SECRET KEY ID])
 
-       with fs.open('s3://[MY BUCKET]/file_test.csv', 'wb') as f:
+       with fs.open('s3://[RESULTS BUCKET NAME]/file_test.csv', 'wb') as f:
               f.write(btw)
 
        sc.stop()
@@ -728,11 +728,11 @@ ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
 WITH SERDEPROPERTIES (
   'serialization.format' = ',',
   'field.delim' = ','
-) LOCATION 's3://[MY BUCKET]/'
+) LOCATION 's3://[RESULTS BUCKET NAME]/'
 TBLPROPERTIES ('has_encrypted_data'='false', "skip.header.line.count"="1");
 ```
 
-Con questa query, una volta eseguita, verrà creata la tabella result_table nel database samplebd (il database di base in Athena). Il file di input per la tabella è il file_test.csv salvato in precedenza nel bucket specificato in MY-BUCKET.
+Con questa query, una volta eseguita, verrà creata la tabella result_table nel database samplebd (il database di base in Athena). Il file di input per la tabella è il file_test.csv salvato in precedenza nel bucket specificato in RESULTS BUCKET NAME.
 
 Una volta eseguita la query sarà stata creata la tabella da interrogare tramite la nostra applicazione Python con query SQL ad Athena.
 
