@@ -7,6 +7,10 @@ Nella parte successiva dell’elaborato verrà descritta la creazione di una sem
 
 LINK FILE DI UNPUT "dump.txt" DA 1.35GB UTILIZZATO PER I TEST: https://mega.nz/file/LIIHhKRB#CXtwXOfKrRRAtQSRPQVO9L5ulfniUGBGp0KLu6FLFTI
 
+LINK FILE DI UNPUT "dump1G.txt" DA 1GB UTILIZZATO PER I TEST: https://mega.nz/file/uFQxQIhK#s3D8hKDNz6U0MS9Fp51YxaZmww71Q6ROarw6ML5YdPk
+
+LINK FILE DI UNPUT "dump500MB.txt" DA 500MB UTILIZZATO PER I TEST: https://mega.nz/file/CFIhCSTI#FENx2P82aV38gizeRxu-qSCKo9zp9VQ2PG-aBux0t4k
+
 # Creazione cluster con Spark e Terraform:
 ## Creazione VPC
 
