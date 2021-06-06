@@ -1,6 +1,8 @@
 # BigDataProject
 
-Relazione sul progetto per l’esame di Big Data 2020/21. In questa relazione verrà descritto il procedimento di creazione di un cluster in Spark di tipo Standalone gestito tramite Terraform. Viene descritto l’intero procedimento di costruzione del cluster. Successivamente, viene eseguito tramite il cluster uno script in Python che si occupa di contare le occorrenze per riga di ogni parola in un file di testo di grandi dimensioni tramite l’utilizzo di un approccio map-reduce in Spark, che divide il lavoro tra le macchine del cluster. I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
+Relazione sul progetto per l’esame di Big Data 2020/21. In questa relazione verrà descritto il procedimento di creazione di un cluster in Spark di tipo Standalone gestito tramite Terraform. Viene descritto l’intero procedimento di costruzione del cluster. 
+Successivamente, viene eseguito tramite il cluster uno script in Python che si occupa di contare le occorrenze per riga di ogni parola in un file di testo di grandi dimensioni tramite l’utilizzo di un approccio map-reduce in Spark, che divide il lavoro tra le macchine del cluster. 
+I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
 Nella parte successiva dell’elaborato verrà descritta la creazione di una semplice interfaccia grafica in Django, tramite la quale sarà possibile interrogare i risultati della computazione sfruttando le query SQL-Like eseguibili in Amazon Athena su S3.
 
 # Creazione cluster con Spark e Terraform:
