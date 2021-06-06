@@ -621,40 +621,50 @@ E nel file cercare ALLOWED_HOST:
 
 A questo punto, la prima ### differenza di configurazione:
 Nel caso in cui la configurazione sia in locale (il nostro caso), al posto di ‘your-ip’ bisognerà inserire:
-*ALLOWED_HOST = [‘127.0.0.1’] o ALLOWED_HOST = [‘*’]
+
+```
+ALLOWED_HOST = [‘127.0.0.1’] o ALLOWED_HOST = [‘*’]
+```
 
 Nel caso in cui invece si stia configurando l’applicazione sulla macchina EC2 bisognerà inserire:
-*ALLOWED_HOST =  [‘EC2_DNS_NAME’]
+
+```
+ALLOWED_HOST =  [‘EC2_DNS_NAME’]
+```
 
 E quindi bisognerà inserire l’indirizzo IP o nome DNS ad ALLOWED_HOST in settings.py.
 A questo punto, tornando alla configurazione locale, assicuriamoci di essere tornati nella cartella che contiene manage.py
-“cd ~/django-apps/testsite/”
-	E avviamo il sito web:
-				“python manage.py migrate”
-				“python manage.py runserver 127.0.0.1:8000”
-            A questo punto sarà possibile visualizzare il sito all’indirizzo: http://127.0.0.1:8000/
+
+```
+cd ~/django-apps/testsite/
+```
+
+E avviamo il sito web:
+
+```
+python manage.py migrate
+python manage.py runserver 127.0.0.1:8000
+```
+
+Ora sarà possibile visualizzare il sito all’indirizzo: http://127.0.0.1:8000/
 	
-		
-	
-
-
-
-
-
-
-
-
 Invece per avviare il sito sulla macchina EC2, sulla quale ovviamente come in locale dovremo aver attivato anche l’ambiente virtuale, il comando sarà:
-“python manage.py runserver 0.0.0.0:8000”
-	Sarà possibile visualizzare il sito all’indirizzo: : http://PUBLIC_DNS_ADDRESS:8000/
+
+```
+python manage.py runserver 0.0.0.0:8000
+```
+
+Sarà possibile visualizzare il sito all’indirizzo: : http://PUBLIC_DNS_ADDRESS:8000/
+
 Quando però l’istanza verrà spenta, sarà necessario al prossimo avvio rifare i passaggi precedenti di configurazione aggiornando gli indirizzi DNS della macchina.
 
-3.2	Amazon Athena
+## 3.2	Amazon Athena
 
 Amazon Athena è un servizio fornito da Amazon AWS per analizzare dati memorizzati su Amazon S3 tramite query interattive che rispettano lo standard SQL, è un servizio serverless che si paga solo in base al tempo di query. Per usare Athena sarà necessario accedere al portale si AWS, creare una tabella specificando una fonte di dati in S3.
 
 Nello script di test che è stato utilizzato era presente un pezzo di codice che si occupava di salvare i dati su un bucket S3 precedentemente creato, in formato CSV.
 
+```
 import […]
 
 if __name__ == "__main__":
@@ -677,21 +687,34 @@ if __name__ == "__main__":
               f.write(btw)
 
        sc.stop()
+```
 
 Il risultato dell’operazione di map-reduce viene trasformato in un Dataframe a 2 colonne, e poi viene sfruttata la libreria s3fs per accedere al bucket e scrivere il file csv chiamato “file_test.cv”.
 Per poter utilizzare questa parte dello script sarà quindi necessario installare la libreria s3fs.
 Eseguire in locale o sulla macchina ec2 il comando:
 
-“pip3 install s3fs”
-	Un'altra libreria necessaria è boto3, eseguiamo il comando nella cartella /testsite:
-“pip3 install boto3”
-	Se nell’ambiente non è ancora presente pandas, installarlo con il comando:
-“pip3 install pandas”
+```
+pip3 install s3fs
+```
+
+Un'altra libreria necessaria è boto3, eseguiamo il comando nella cartella /testsite:
+
+```
+pip3 install boto3
+```
+
+Se nell’ambiente non è ancora presente pandas, installarlo con il comando:
+
+```
+pip3 install pandas
+```
 Dopo aver installato la libreria fare il submit al cluster dello script con la parte di scrittura su S3 non commentata, e a questo punto, a fine computazione, dovrebbe comparire il file nel bucket S3.
+
 Se tutto è stato eseguito correttamente, sarà possibile configurare Athena.
 •	Nella barra di ricerca della console di gestione AWS digitare “Athena”
 •	Una volta aperta l’interfaccia di Athena, copiare nel text-box delle query la query:
 
+```
 CREATE EXTERNAL TABLE IF NOT EXISTS sampledb.result_table (
   `Word` string,
   `Count` int 
@@ -702,6 +725,7 @@ WITH SERDEPROPERTIES (
   'field.delim' = ','
 ) LOCATION 's3://[MY BUCKET]/'
 TBLPROPERTIES ('has_encrypted_data'='false', "skip.header.line.count"="1");
+```
 
 Con questa query, una volta eseguita, verrà creata la tabella result_table nel database samplebd (il database di base in Athena). Il file di input per la tabella è il file_test.csv salvato in precedenza nel bucket specificato in MY-BUCKET.
 
@@ -709,7 +733,7 @@ Una volta eseguita la query sarà stata creata la tabella da interrogare tramite
 
 Va detto che è possibile eseguire query su questa tabella anche direttamente dall’interfaccia di Athena, scrivendo una query SQL in uno dei box presenti. I risultati vengono mostrati in basso sotto il pannello di query.
 
-3.3	Funzionamento applicazione di query 
+## 3.3	Funzionamento applicazione di query 
 
 Una volta configurato l’ambiente Django e la tabella Athena alla quale fare le query, verrà descritto come è stata organizzata la semplice interfaccia grafica per interrogare i dati.
 
@@ -719,8 +743,13 @@ In s3_website abbiamo tutti i file necessari al funzionamento della GUI che verr
 
 Una volta fatto questo, per permettere all’applicazione Django di eseguire il sito, sarà prima di tutto necessario modificare il file urls, dalla cartella django-apps eseguiamo:
 
-“nano testsite/testsite/urls.py”
-	E sostituiamo il contenuto con:
+```
+nano testsite/testsite/urls.py
+```
+
+E sostituiamo il contenuto con:
+
+```
 from django.contrib import admin
 from django.urls import path, include
 
@@ -728,20 +757,27 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('s3_website.urls'))
 ]
-	Salviamo, poi apriamo il file settings:
-“nano testsite/testsite/settings.py”
-	Aggiungiamo in INSTALLED_APPS:
+```
+
+Salviamo, poi apriamo il file settings:
+
+```
+nano testsite/testsite/settings.py
+```
+
+Aggiungiamo in INSTALLED_APPS:
+
+```
 	INSTALLED_APPS = [
-[…],
+	[…],
     	's3_website.apps.S3WebsiteConfig',
     	'testsite'
-]
-
-
+	]
+```
 
 Sempre nello stesso file sostituire TEMPLATES con:
 
-
+```
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -757,17 +793,22 @@ TEMPLATES = [
         },
     },
 ]
+```
 
 Quindi chiudiamo e salviamo il file.
 
 Ora dovrebbe essere possibile eseguire e visualizzare il sito-web:
 
-“python manage.py runserver 127.0.0.1:8000”
-Query:
+```
+python manage.py runserver 127.0.0.1:8000
+```
+
+## Query:
 
 Aprendo il file “views.py” nella cartella “s3_website” sarà possibile visualizzare il sistema per effettuare le query a Athena:
 I parametri delle funzioni che vedremo tra poco sono definiti in params:
 
+```
 params = {
     'region':[YOUR-REGION],
     'database': 'sampledb',
@@ -775,6 +816,7 @@ params = {
     'path': 'Unsaved/2021/output',
     'query': 'SELECT * FROM result_table LIMIT 100'
 }
+```
 
 Notiamo che ci sono alcuni parametri da definire:
 
@@ -784,7 +826,7 @@ Notiamo che ci sono alcuni parametri da definire:
 
 Le tre funzioni principali sono query, athena_query, athena_to_s3, e cleanup:
 
-
+```python
 def query():
    session = boto3.Session()
    s3_filename = athena_to_s3(session, params)
@@ -848,12 +890,14 @@ def cleanup(session, params):
    for item in my_bucket.objects.filter(Prefix=params['path']):
       item.delete()
 
-
+```
 Sarà necessario specificare le chiavi della CLI nella funzione clenup. 
 
 
-Per effettuare una query viene chiamata la funzione query(). Questa funzione fa partire la sessione boto3 e chiama la funzione “athena_to_s3” passandole i parametri in params e la session. La funzione dovrà restituire il nome del file contenente i risultati della query se questa è andata a buon fine. 
-La funzione “athena_to_s3” inizia una sessione Athena nella regione specificata nei parametri. Chiama quindi la funzione “athena_query” alla quale passa il client e l’insieme di parametri. 
+Per effettuare una query viene chiamata la funzione query(). Questa funzione fa partire la sessione boto3 e chiama la funzione “athena_to_s3” passandole i parametri in params e la session. 
+La funzione dovrà restituire il nome del file contenente i risultati della query se questa è andata a buon fine. 
+La funzione “athena_to_s3” inizia una sessione Athena nella regione specificata nei parametri. 
+Chiama quindi la funzione “athena_query” alla quale passa il client e l’insieme di parametri. 
 La funzione “athena_query” manda la query ad Athena, sottoponendo al database specificato in ‘database’ la query specificata nel campo ‘query’ di params. Definisce anche il path nel quale trovare l’output e restituisce la risposta alla query. 
 Nella seconda parte della funzione “athena_to_s3” la funzione effettua 5 tentativi massimo per trovare il file csv che dovrebbe contenere i risultati della query. Se il file viene trovato, restituisce il nome.
 Il nome del file verrà restituito alla funzione query(), che tramite boto3 aprirà il bucket e leggerà il file di risultati, convertendolo in Dataframe e poi in html con la funzione .to_html(), cosicché possa poi essere reindirizzato nella pagina del sito Django.
@@ -863,36 +907,35 @@ In generale, la strategia scelta per effettuare query ad Athena è sempre questa
 
 Ad esempio:
 
+```python
 def getMoreCommon(request):
    params['query'] = 'SELECT * FROM ' + db + ' ORDER BY count DESC LIMIT 30'
    table = query()
    return render(request, 's3_website/athena.html', {'result' : table})
+```
 
 E’ la funzione che agisce sul bottone nell’interfaccia per ottenere le parole più comuni.
 
 Il resto della configurazione è normale codice Django, con la definizione degli urls nel file urls.py, dei template html nella cartella templates in s3_website, e dell’intero sito in generale. Il tutto è facilmente comprensibile esplorando i file presenti nel repository GitHub.
 
+## 3.4	Descrizione GUI
 
-
-
-3.4	Descrizione GUI
 La GUI è composta principalmente da due pagine, la prima, quella principale che si presenta all’avvio è:
-Cliccando sul primo bottone sarà possibile visualizzare in una pagina unica l’intero database di risultati.
 
+![Imgur](https://i.imgur.com/1H73aR0.jpg)
+
+Cliccando sul primo bottone sarà possibile visualizzare in una pagina unica l’intero database di risultati.
 
 Cliccando sul secondo bottone, invece, si aprirà la pagina delle query:
 
+![Imgur](https://i.imgur.com/jUHdL8s.jpg)
+
 Cliccando su Dataset verrà visualizzato a destra il dataset e a sinistra i bottoni e il box per scrivere le query:
 
-
-
-
-
-
-
-
-
-
+![Imgur](https://i.imgur.com/IDwwN9l.jpg)
 
 Se verrà cliccato uno dei bottoni sotto il textbox, la tabella a sinistra verrà sostituita con la tabella di risultati, stessa cosa se viene scritta una query SQL nel Textbox e viene successivamente cliccato execute:
+
+![Imgur](https://i.imgur.com/pAbYKUp.jpg)
+
 
