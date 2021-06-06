@@ -616,7 +616,7 @@ nano testsite/testsite/setting.py
 
 E nel file cercare ALLOWED_HOST:
 
-[Imgur](https://i.imgur.com/h1MrsUs.jpg)
+![Imgur](https://i.imgur.com/h1MrsUs.jpg)
 
 
 
