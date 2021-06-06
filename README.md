@@ -5,11 +5,14 @@ Successivamente, viene eseguito tramite il cluster uno script in Python che si o
 I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
 Nella parte successiva dell’elaborato verrà descritta la creazione di una semplice interfaccia grafica in Django, tramite la quale sarà possibile interrogare i risultati della computazione sfruttando le query SQL-Like eseguibili in Amazon Athena su S3.
 
-LINK FILE DI UNPUT "dump.txt" DA 1.35GB UTILIZZATO PER I TEST: https://mega.nz/file/LIIHhKRB#CXtwXOfKrRRAtQSRPQVO9L5ulfniUGBGp0KLu6FLFTI
+LINK FILE DI UNPUT "dump.txt" DA 1.35GB UTILIZZATO PER I TEST: 
+https://mega.nz/file/LIIHhKRB#CXtwXOfKrRRAtQSRPQVO9L5ulfniUGBGp0KLu6FLFTI
 
-LINK FILE DI UNPUT "dump1G.txt" DA 1GB UTILIZZATO PER I TEST: https://mega.nz/file/uFQxQIhK#s3D8hKDNz6U0MS9Fp51YxaZmww71Q6ROarw6ML5YdPk
+LINK FILE DI UNPUT "dump1G.txt" DA 1GB UTILIZZATO PER I TEST: 
+https://mega.nz/file/uFQxQIhK#s3D8hKDNz6U0MS9Fp51YxaZmww71Q6ROarw6ML5YdPk
 
-LINK FILE DI UNPUT "dump500MB.txt" DA 500MB UTILIZZATO PER I TEST: https://mega.nz/file/CFIhCSTI#FENx2P82aV38gizeRxu-qSCKo9zp9VQ2PG-aBux0t4k
+LINK FILE DI UNPUT "dump500MB.txt" DA 500MB UTILIZZATO PER I TEST: 
+https://mega.nz/file/CFIhCSTI#FENx2P82aV38gizeRxu-qSCKo9zp9VQ2PG-aBux0t4k
 
 # Creazione cluster con Spark e Terraform:
 ## Creazione VPC
