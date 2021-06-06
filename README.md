@@ -54,13 +54,15 @@ Nella shell scrivere “sudo” e successivamente incollare la stringa di connes
 ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
 Una volta connessi all’istanza, aprire un'altra shell nella stessa cartella e digitare il comando:
 
-'''
+```
 scp -i ‘chiave.pem' chiave.pem ubuntu@ INDIRIZZO DNS PUBBLICO DELL’ISTANZA:/home/ubuntu/.ssh
-'''
+```
 
 Chiudere la shell una volta inviata la chiave e tornare sulla prima shell, digitare quindi:
 
-'chmod 400 /home/ubuntu/.ssh/chiave.pem'
+```
+chmod 400 /home/ubuntu/.ssh/chiave.pem
+```
 
 Ora, nella shell connessa all’istanza namenode scrivere:
 
