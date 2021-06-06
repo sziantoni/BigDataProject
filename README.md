@@ -496,11 +496,11 @@ Nello script la parte commentata dopo la stampa del risultato di counts è la pa
 Per poter salvare i risultati sarà necessario creare un bucket su S3 per contenerli, nel caso di questo progetto è stato creato il bucket “resultsziantoni”.
 
 
-2.4	Risultati
+## 2.4	Risultati
 
 I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.5 GB, i risultati sono:
 
-Application ID         | Name	        |Cores	|Memory     |Submitted Time	|Duration |Size
+Application ID         | Name	        |Cores	|Memory per Executor    |Submitted Time	|Duration |Size
 -----------------------|----------------|-------|-----------|-------------------|---------|----
 app-20210601171042-0000| example.py	|9	|1024.0 MB  |01/06/2021 17:10	|29 s	  |500MB
 app-20210601171133-0001| example.py	|5	|1024.0 MB  |01/06/2021 17:11	|36 s	  |500MB
@@ -529,7 +529,7 @@ app-20210601183107-0003|example.py	|2	|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1
 app-20210601183406-0004|example.py	|1	|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.5GB
 
 
-3: Interfaccia in Django per query con AWS Athena su S3
+# 3: Interfaccia in Django per query con AWS Athena su S3
 A questo punto verrà descritta la creazione dell’ambiente Django e verrà descritta l’interfaccia grafica e la gestione delle query da Python ad Amazon Athena.
 3.1	Configurazione Django
 
