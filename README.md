@@ -3,8 +3,8 @@
 Relazione sul progetto per l’esame di Big Data 2020/21. In questa relazione verrà descritto il procedimento di creazione di un cluster in Spark di tipo Standalone gestito tramite Terraform. Viene descritto l’intero procedimento di costruzione del cluster. Successivamente, viene eseguito tramite il cluster uno script in Python che si occupa di contare le occorrenze per riga di ogni parola in un file di testo di grandi dimensioni tramite l’utilizzo di un approccio map-reduce in Spark, che divide il lavoro tra le macchine del cluster. I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
 Nella parte successiva dell’elaborato verrà descritta la creazione di una semplice interfaccia grafica in Django, tramite la quale sarà possibile interrogare i risultati della computazione sfruttando le query SQL-Like eseguibili in Amazon Athena su S3.
 
-# 1: Creazione cluster con Spark e Terraform:
-## 1.1-	Creazione VPC
+# Creazione cluster con Spark e Terraform:
+## Creazione VPC
 
 Il primo step da svolgere consiste nella creazione di una VPC (Virtual private Cloud) che ci permette di avviare le risorse di AWS in una rete virtuale personalizzata.
 •	Nella barra di ricerca della console AWS scrivere “VPC” e selezionare il primo risultato.
@@ -15,7 +15,7 @@ Il primo step da svolgere consiste nella creazione di una VPC (Virtual private C
 •	Selezionare la subnet e cliccare su “Actions”, e selezionare la voce “Modify auto-assign IP settings”. Quindi selezionare “Auto-assign IPv4”. In questo modo sarà 	         possibile comunicare con le istanze tramite SSH perché AWS assegnerà loro IPv4 pubblici.
 •	Abbiamo quindi creato la subnet all’interno della quale creeremo le istanze.
 
-## 1.2	Creazione istanza t2.micro con Spark 
+## Creazione istanza t2.micro con Spark 
 
 Creazione istanza principale:
 
@@ -175,7 +175,7 @@ sudo apt install python3-pip
 python3 -m pip install pandas
 ```
 
-## 1.3 Copiare l’AMI
+## Copiare l’AMI
 
 A questo punto, conclusa la configurazione dell’istanza namenode, andremo a creare una copia AMI, uno snapshot dell’istanza che permetterà a Terraform di ricreare istanze con gli stessi settaggi di namenode in automatico. Saranno le istanze utilizzate nel cluster.
 
@@ -183,7 +183,7 @@ Per farlo, dal menù di EC2 cliccare con il tasto destro sull’istanza namenode
 
 Una volta creata l’immagine, quest’ultima sarà accessibile dal menù sulla sinistra alla voce “AMI” sotto “Images”.
 
-## 1.4 AWS CLI
+## AWS CLI
 
 Installiamo la CLI AWS in modo che poi possa essere utilizzata da Terraform per accedere alle nostre risorse:
 
@@ -208,7 +208,7 @@ aws configure
 E inserire i dati uno alla volta presenti nel file scaricato.
 Come regione impostare quella della propria istanza, come formato di output scrivere “json”.
 
-## 1.5 Configurazione Terraform
+## Configurazione Terraform
 
 A questo punto possiamo configurare Terraform. Infatti, non sarà necessario che sia presente nella copia dell’AMI perché verrà usato solo su namenode.
 Eseguire il comando:
@@ -383,7 +383,7 @@ Per eseguire questo script bisognerà scrivere:
 bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
 ```
        
-## 1.6 Creazione Cluster
+## Creazione Cluster
 
 A questo punto avremo tutto impostato per creare il cluster.
 Dopo aver popolato il file main.tf con le impostazioni desiderate, spostarsi nella cartella di /Terraform e digitare:
@@ -403,9 +403,9 @@ bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
 Nel caso in cui volessimo eliminare il cluster creato, sarà possibile eseguire “terraform destroy” nella cartella di terraform e riportare così il tutto alla impostazione precedente la creazione del cluster.
 
 
-# 2: Testing, risultati e salvataggio su S3
+# Testing, risultati e salvataggio su S3
 
-## 2.1	Introduzione test
+## Introduzione test
 
 Nel caso di questo progetto, il cluster utilizzato è composto da 10 nodi. Un nodo master e 9 nodi slaves. Si è scelto di non usare il master anche come slave perché creava problemi nel submit a Spark.
 Quindi, una volta specificato in Terraform 9 come numero di istanze da creare e 2 come indice di partenza, è stato creato il cluster tramite gli script Terraform esposti in precedenza.
@@ -414,7 +414,7 @@ Il test svolto su questo cluster utilizza un file di testo come input, e tramite
 
 Il file di test in input è salvato su S3, e anche il risultato della computazione sarà salvato come CSV su S3.
 
-## 2.2	S3:
+## S3:
 Per utilizzare lo storage di Amazon S3 i passi sono semplici e veloci.
 •	Nella barra di ricerca della console AWS digitare S3 e selezionare il primo risultato.
 •	Cliccare sul testo “Create Bucket”
@@ -430,7 +430,7 @@ split dump.txt -b [x]m –additional-suffix=.txt
 
 Dove [x] indica I megabyte di dimensione di ciascun file splittato.
 
-## 2.3	Submit al cluster 
+## Submit al cluster 
 
 Lo script che verrà utilizzato è lo script “example.py” presente nel repository di GitHub.
 
@@ -496,7 +496,7 @@ Nello script la parte commentata dopo la stampa del risultato di counts è la pa
 Per poter salvare i risultati sarà necessario creare un bucket su S3 per contenerli, nel caso di questo progetto è stato creato il bucket “resultsziantoni”.
 
 
-## 2.4	Risultati
+## Risultati
 
 I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.5 GB, i risultati sono:
 
@@ -529,10 +529,10 @@ app-20210601183107-0003|example.py	|2	|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1
 app-20210601183406-0004|example.py	|1	|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.5GB
 
 
-# 3: Interfaccia in Django per query con AWS Athena su S3
+# Interfaccia in Django per query con AWS Athena su S3
 A questo punto verrà descritta la creazione dell’ambiente Django e verrà descritta l’interfaccia grafica e la gestione delle query da Python ad Amazon Athena.
 
-## 3.1	Configurazione Django
+## Configurazione Django
 
 L’ambiente Django e l’applicazione sono stati sviluppati in locale in un ambiente Python 3.8, ovviamente la stessa configurazione può essere riprodotta su un istanza EC2 con Python come quelle utilizzate finora. La scelta di sviluppare il tutto in locale è stata fatta per contenere i costi del Free Tier di AWS.
 
@@ -658,7 +658,7 @@ Sarà possibile visualizzare il sito all’indirizzo: : http://PUBLIC_DNS_ADDRES
 
 Quando però l’istanza verrà spenta, sarà necessario al prossimo avvio rifare i passaggi precedenti di configurazione aggiornando gli indirizzi DNS della macchina.
 
-## 3.2	Amazon Athena
+## Amazon Athena
 
 Amazon Athena è un servizio fornito da Amazon AWS per analizzare dati memorizzati su Amazon S3 tramite query interattive che rispettano lo standard SQL, è un servizio serverless che si paga solo in base al tempo di query. Per usare Athena sarà necessario accedere al portale si AWS, creare una tabella specificando una fonte di dati in S3.
 
@@ -733,7 +733,7 @@ Una volta eseguita la query sarà stata creata la tabella da interrogare tramite
 
 Va detto che è possibile eseguire query su questa tabella anche direttamente dall’interfaccia di Athena, scrivendo una query SQL in uno dei box presenti. I risultati vengono mostrati in basso sotto il pannello di query.
 
-## 3.3	Funzionamento applicazione di query 
+## Funzionamento applicazione di query 
 
 Una volta configurato l’ambiente Django e la tabella Athena alla quale fare le query, verrà descritto come è stata organizzata la semplice interfaccia grafica per interrogare i dati.
 
@@ -918,7 +918,7 @@ E’ la funzione che agisce sul bottone nell’interfaccia per ottenere le parol
 
 Il resto della configurazione è normale codice Django, con la definizione degli urls nel file urls.py, dei template html nella cartella templates in s3_website, e dell’intero sito in generale. Il tutto è facilmente comprensibile esplorando i file presenti nel repository GitHub.
 
-## 3.4	Descrizione GUI
+## Descrizione GUI
 
 La GUI è composta principalmente da due pagine, la prima, quella principale che si presenta all’avvio è:
 
