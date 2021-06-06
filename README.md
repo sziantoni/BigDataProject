@@ -12,10 +12,10 @@ Il primo step da svolgere consiste nella creazione di una VPC (Virtual private C
 •	Assegnare un nome alla VPC e cliccare su “Create VPC”.
 •	Una volta concluso, cliccare nel menù di sinistra la voce “Subnets”
 •	Dovrebbe comparire una subnet pubblica chiamata “Public Subnet”. A questo punto cambiare il nome della subnet per renderla riconoscibile.
-•	Selezionare la subnet e cliccare su “Actions”, e selezionare la voce “Modify auto-assign IP settings”. Quindi selezionare “Auto-assign IPv4”. In questo modo sarà possibile comunicare con le istanze tramite SSH perché AWS assegnerà loro IPv4 pubblici.
+•	Selezionare la subnet e cliccare su “Actions”, e selezionare la voce “Modify auto-assign IP settings”. Quindi selezionare “Auto-assign IPv4”. In questo modo sarà 	         possibile comunicare con le istanze tramite SSH perché AWS assegnerà loro IPv4 pubblici.
 •	Abbiamo quindi creato la subnet all’interno della quale creeremo le istanze.
 
-1.2	Creazione istanza t2.micro con Spark 
+## 1.2	Creazione istanza t2.micro con Spark 
 
 Creazione istanza principale:
 
@@ -31,33 +31,34 @@ Dalla console AWS selezionare la voce “EC2”. Quindi selezionare la voce “I
 •	Creare un nuovo gruppo di sicurezza tramite "Create a new security group" e impostare il nome nel campo "Security group name" 
 •	Cliccare su "Review and Launch" e poi "Launch" 
 •	Una volta cliccato vi verrà chiesto di creare una nuova coppia di chiavi. Selezionare la voce 
-"Create a new key pair" e impostare un nome in "Key pair name", poi cliccate su "Download Key Pair" che scaricherà la chiave privata con estensione ".pem". Tramite la chiave privata salvata in locale sarà possibile connettersi alle istanze via SSH. 
+        "Create a new key pair" e impostare un nome in "Key pair name", poi cliccate su "Download Key Pair" che scaricherà la chiave privata con estensione ".pem". Tramite la           chiave privata salvata in locale sarà possibile connettersi alle istanze via SSH. 
 •	Cliccare quindi su "Launch Instances" per confermare.
 •	Una volta creata l’istanza tornare alla sezione “Instances” e dare un nome all’istanza cliccando sulla matita. Nel nostro caso sarà “namenode”.
 
-Una volta concluso questo processo, sarà necessario modificare il Gruppo di Sicurezza. 
+### Una volta concluso questo processo, sarà necessario modificare il Gruppo di Sicurezza. 
+
 Dal menù a sinistra di AWS selezionare “Security Group” in Network & Security. 
 Una volta caricato il menù dei gruppi di sicurezza, selezionare il gruppo di sicurezza personalizzato creato in precedenza. 
 Nel menù che appare in basso selezionare “Inbound rules”, cliccare su “Edit inbound rules”. Quindi cliccare su “Add rule”. 
 Scegliere come opzione “All Traffic” e come Source selezionare “Custom”, quindi scrivere il CIDR scelto per la subnet (dovrebbe essere sempre 10.0.0.0/24).
 Quindi salvare la regola con “Save rules”.
 
-Connessione all’istanza:
+## Connessione all’istanza:
 
-Nel menù “Istances” cliccare sull’istanza appena creata con il testo destro. Quindi cliccare su “Istance State” o “Stato dell’istanza” nel menù, e quindi su “Start” o “Inizio”. 
+Nel menù “Istances” cliccare sull’istanza appena creata con il testo destro. 
+Quindi cliccare su “Istance State” o “Stato dell’istanza” nel menù, e quindi su “Start” o “Inizio”. 
 Una volta che l’istanza è stata avviata, cliccare nuovamente con il destro sull’istanza e quindi su “Connect” o “Collegarsi”. 
 Copiare la striga per la connessione SSH.
-
 Aprire quindi una shell Linux nella cartella dove è stata scaricata la chiave. 
-Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma 
+Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma
 ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
 Una volta connessi all’istanza, aprire un'altra shell nella stessa cartella e digitare il comando:
 
-“scp -i ‘chiave.pem' chiave.pem ubuntu@ INDIRIZZO DNS PUBBLICO DELL’ISTANZA:/home/ubuntu/.ssh”
+'scp -i ‘chiave.pem' chiave.pem ubuntu@ INDIRIZZO DNS PUBBLICO DELL’ISTANZA:/home/ubuntu/.ssh'
 
 Chiudere la shell una volta inviata la chiave e tornare sulla prima shell, digitare quindi:
 
-“chmod 400 /home/ubuntu/.ssh/chiave.pem”
+'chmod 400 /home/ubuntu/.ssh/chiave.pem'
 
 Ora, nella shell connessa all’istanza namenode scrivere:
 
