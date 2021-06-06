@@ -619,22 +619,14 @@ E nel file cercare ALLOWED_HOST:
 ![Imgur](https://i.imgur.com/h1MrsUs.jpg)
 
 
-
-
-
-
-
-
-
-
-
-	
-A questo punto, la prima differenza di configurazione:
+A questo punto, la prima ### differenza di configurazione:
 Nel caso in cui la configurazione sia in locale (il nostro caso), al posto di ‘your-ip’ bisognerà inserire:
-	ALLOWED_HOST = [‘127.0.0.1’] o ALLOWED_HOST = [‘*’]
-	Nel caso in cui invece si stia configurando l’applicazione sulla macchina EC2 bisognerà inserire:
-	ALLOWED_HOST =  [‘EC2_DNS_NAME’]
-	E quindi bisognerà inserire l’indirizzo IP o nome DNS ad ALLOWED_HOST in settings.py.
+*ALLOWED_HOST = [‘127.0.0.1’] o ALLOWED_HOST = [‘*’]
+
+Nel caso in cui invece si stia configurando l’applicazione sulla macchina EC2 bisognerà inserire:
+*ALLOWED_HOST =  [‘EC2_DNS_NAME’]
+
+E quindi bisognerà inserire l’indirizzo IP o nome DNS ad ALLOWED_HOST in settings.py.
 A questo punto, tornando alla configurazione locale, assicuriamoci di essere tornati nella cartella che contiene manage.py
 “cd ~/django-apps/testsite/”
 	E avviamo il sito web:
