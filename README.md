@@ -443,7 +443,7 @@ if __name__ == "__main__":
        sc = SparkContext()
        file_ = sc.textFile("s3a://[NOME DEL BUCKET]/dump.txt")
 
-counts = file_.map(lambda line: [(i, 1) for i in set(line.split(" "))]).flatMap(lambda x: x).reduceByKey(lambda x, y: x + y).collect()
+       counts = file_.map(lambda line: [(i, 1) for i in set(line.split(" "))]).flatMap(lambda x: x).reduceByKey(lambda x, y: x + y).collect()
 
        for i in range(0, 1000):
            print(counts[i])
