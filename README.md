@@ -20,38 +20,39 @@ Il primo step da svolgere consiste nella creazione di una VPC (Virtual private C
 Creazione istanza principale:
 
 Dalla console AWS selezionare la voce “EC2”. Quindi selezionare la voce “Istances” dal menù di sinistra. Poi selezionare “Launch Instances”
-•	Come AMI (Amazon Machine Image) selezionare Ubuntu 18.04 a 64-bit. 
-•	Selezionare il tipo di istanza, nel nostro caso t2.micro
-•	Cliccare su "Next: Configure Instance Details"
-•	Impostare a 1 il numero di istanze, si andrà a creare solo l’istanza di base e le altre verranno create tramite l’AMI di quest’ultima.
-•	Alla voce "Network" scegliere la VPC che è stata creata nel passaggio precedente.
-•	Cliccare su "Next: Add Storage"
-•	Impostare 30 Giga di storage, il massimo consentito
-•	Cliccare su "Next: Add Tags" e su "Next: Configure Security Group"
-•	Creare un nuovo gruppo di sicurezza tramite "Create a new security group" e impostare il nome nel campo "Security group name" 
-•	Cliccare su "Review and Launch" e poi "Launch" 
-•	Una volta cliccato vi verrà chiesto di creare una nuova coppia di chiavi. Selezionare la voce 
+*	Come AMI (Amazon Machine Image) selezionare Ubuntu 18.04 a 64-bit. 
+*	Selezionare il tipo di istanza, nel nostro caso t2.micro
+*	Cliccare su "Next: Configure Instance Details"
+*	Impostare a 1 il numero di istanze, si andrà a creare solo l’istanza di base e le altre verranno create tramite l’AMI di quest’ultima.
+*	Alla voce "Network" scegliere la VPC che è stata creata nel passaggio precedente.
+*	Cliccare su "Next: Add Storage"
+*	Impostare 30 Giga di storage, il massimo consentito
+*	Cliccare su "Next: Add Tags" e su "Next: Configure Security Group"
+*	Creare un nuovo gruppo di sicurezza tramite "Create a new security group" e impostare il nome nel campo "Security group name" 
+*	Cliccare su "Review and Launch" e poi "Launch" 
+*	Una volta cliccato vi verrà chiesto di creare una nuova coppia di chiavi. Selezionare la voce 
         "Create a new key pair" e impostare un nome in "Key pair name", poi cliccate su "Download Key Pair" che scaricherà la chiave privata con estensione ".pem". Tramite la           chiave privata salvata in locale sarà possibile connettersi alle istanze via SSH. 
-•	Cliccare quindi su "Launch Instances" per confermare.
-•	Una volta creata l’istanza tornare alla sezione “Instances” e dare un nome all’istanza cliccando sulla matita. Nel nostro caso sarà “namenode”.
+*	Cliccare quindi su "Launch Instances" per confermare.
+*	Una volta creata l’istanza tornare alla sezione “Instances” e dare un nome all’istanza cliccando sulla matita. Nel nostro caso sarà “namenode”.
 
 ### Una volta concluso questo processo, sarà necessario modificare il Gruppo di Sicurezza. 
 
-Dal menù a sinistra di AWS selezionare “Security Group” in Network & Security. 
-Una volta caricato il menù dei gruppi di sicurezza, selezionare il gruppo di sicurezza personalizzato creato in precedenza. 
-Nel menù che appare in basso selezionare “Inbound rules”, cliccare su “Edit inbound rules”. Quindi cliccare su “Add rule”. 
-Scegliere come opzione “All Traffic” e come Source selezionare “Custom”, quindi scrivere il CIDR scelto per la subnet (dovrebbe essere sempre 10.0.0.0/24).
-Quindi salvare la regola con “Save rules”.
+* Dal menù a sinistra di AWS selezionare “Security Group” in Network & Security. 
+* Una volta caricato il menù dei gruppi di sicurezza, selezionare il gruppo di sicurezza personalizzato creato in precedenza. 
+* Nel menù che appare in basso selezionare “Inbound rules”, cliccare su “Edit inbound rules”. Quindi cliccare su “Add rule”. 
+* Scegliere come opzione “All Traffic” e come Source selezionare “Custom”, quindi scrivere il CIDR scelto per la subnet (dovrebbe essere sempre 10.0.0.0/24).
+* Quindi salvare la regola con “Save rules”.
 
 ## Connessione all’istanza:
 
-Nel menù “Istances” cliccare sull’istanza appena creata con il testo destro. 
-Quindi cliccare su “Istance State” o “Stato dell’istanza” nel menù, e quindi su “Start” o “Inizio”. 
-Una volta che l’istanza è stata avviata, cliccare nuovamente con il destro sull’istanza e quindi su “Connect” o “Collegarsi”. 
-Copiare la striga per la connessione SSH.
-Aprire quindi una shell Linux nella cartella dove è stata scaricata la chiave. 
-Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma
-ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
+* Nel menù “Istances” cliccare sull’istanza appena creata con il testo destro. 
+* Quindi cliccare su “Istance State” o “Stato dell’istanza” nel menù, e quindi su “Start” o “Inizio”. 
+* Una volta che l’istanza è stata avviata, cliccare nuovamente con il destro sull’istanza e quindi su “Connect” o “Collegarsi”. 
+* Copiare la striga per la connessione SSH.
+* Aprire quindi una shell Linux nella cartella dove è stata scaricata la chiave. 
+* Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma
+* ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
+
 Una volta connessi all’istanza, aprire un'altra shell nella stessa cartella e digitare il comando:
 
 ```
@@ -294,13 +295,13 @@ interpreter = ["bash", "/home/ubuntu/Setup.sh", "[NOME CHIAVE]", "[INDICE DI   P
 ```
 
 Come si nota, in questo file sono presenti una serie di opzioni da specificare:
-•	[REGION]: regione utilizzata (ad esempio us-east-1)
-•	[ID AMI]: ID dell’AMI che si può trovare nell’AMI su AWS cliccandoci sopra e aprendo il menù in basso.
-•	[ID SUBNET]: L’ID della VPC create inizialmente, che si trova nel menù VPC cliccando sulla VPC Creata e aprendo il menù in basso.
-•	[ID GRUPPO DI SICUREZZA]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo                                   il menù in basso.
-•	[NUMERO DI ISTANZE DA CREARE]: Il numero di istanze che vogliamo utilizzare nel cluster.
-•	[NOME CHIAVE]: il nome della chiave scaricata in locale
-•	[INDICE DI PARTENZA]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2,                                     datanode3, datanode4.
+*	[REGION]: regione utilizzata (ad esempio us-east-1)
+*	[ID AMI]: ID dell’AMI che si può trovare nell’AMI su AWS cliccandoci sopra e aprendo il menù in basso.
+*	[ID SUBNET]: L’ID della VPC create inizialmente, che si trova nel menù VPC cliccando sulla VPC Creata e aprendo il menù in basso.
+*	[ID GRUPPO DI SICUREZZA]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo                                   il menù in basso.
+*	[NUMERO DI ISTANZE DA CREARE]: Il numero di istanze che vogliamo utilizzare nel cluster.
+*	[NOME CHIAVE]: il nome della chiave scaricata in locale
+*	[INDICE DI PARTENZA]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2,                                     datanode3, datanode4.
 Inoltre, nel file, sono presenti anche due chiamate a script esterni, uno di Setup del cluster, che imposta le istanze appena create in automatico, e uno di pulizia del cluster che riporta all’impostazione iniziale precedente alla creazione delle istanze tramite Terraform.
 Creare il primo file con il comando:
 
@@ -416,11 +417,11 @@ Il file di test in input è salvato su S3, e anche il risultato della computazio
 
 ## S3:
 Per utilizzare lo storage di Amazon S3 i passi sono semplici e veloci.
-•	Nella barra di ricerca della console AWS digitare S3 e selezionare il primo risultato.
-•	Cliccare sul testo “Create Bucket”
-•	Dare un nome al bucket e cliccare “Create Bucket” in fondo alla pagina.
-•	Una volta creato il bucket, cliccarci sopra e aprirlo
-•	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt” nel repository Gitub dopo averlo             	 scaricato.
+*	Nella barra di ricerca della console AWS digitare S3 e selezionare il primo risultato.
+*	Cliccare sul testo “Create Bucket”
+*	Dare un nome al bucket e cliccare “Create Bucket” in fondo alla pagina.
+*	Una volta creato il bucket, cliccarci sopra e aprirlo
+*	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt” nel repository Gitub dopo averlo             	 scaricato.
 Una volta caricato il file di testo su S3, sarà possibile utilizzarlo in Spark.
 Nel caso in cui il file dump.txt fosse troppo grande, è possibile splittarlo con il comando:
 
