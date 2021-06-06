@@ -531,52 +531,90 @@ app-20210601183406-0004|example.py	|1	|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1
 
 # 3: Interfaccia in Django per query con AWS Athena su S3
 A questo punto verrà descritta la creazione dell’ambiente Django e verrà descritta l’interfaccia grafica e la gestione delle query da Python ad Amazon Athena.
-3.1	Configurazione Django
+
+## 3.1	Configurazione Django
 
 L’ambiente Django e l’applicazione sono stati sviluppati in locale in un ambiente Python 3.8, ovviamente la stessa configurazione può essere riprodotta su un istanza EC2 con Python come quelle utilizzate finora. La scelta di sviluppare il tutto in locale è stata fatta per contenere i costi del Free Tier di AWS.
+
 In generale, verranno comunque trattate entrambe le configurazioni.
-	Prima di tutto, bisognerà controllare la presenza di Python e Pip.
+Prima di tutto, bisognerà controllare la presenza di Python e Pip.
+
 Nell’istanza EC2 dovremmo averli già configurati in precedenza. In locale è necessario eseguire i seguenti comandi:
-“sudo apt-get update && sudo apt-get -y upgrade”
-“sudo apt-get install python3”
-“sudo apt-get install -y python3-pip”
+
+```
+sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get install python3
+sudo apt-get install -y python3-pip
+```
+
 Lo step successive è quello di istallare virtualenv:
-“pip3 install virtualenv”
-	Django in locale e su EC2:
-	Django verrà istallato tramite pip3:
-	Creiamo da directory per contenere l’applicazione Django:
-“mkdir django-apps”
-“cd django-apps”
+
+```
+pip3 install virtualenv
+```
+## Django in locale e su EC2:
+
+Django verrà istallato tramite pip3:
+Creiamo da directory per contenere l’applicazione Django:
+
+```
+mkdir django-apps
+cd django-apps
+```
+
 E all’intero della cartella appena creata, creiamo un ambiente virtuale, chiamato “env”:
-“virtualenv env”
+
+```
+virtualenv env
+```
+
 E attiviamo l’ambiente con il comando:
-“. env/bin/activate”
-Possiamo disattivare l’ambiente quando lo desideriamo con “. env/bin/deactivate”
+
+```
+. env/bin/activate
+```
+
+Possiamo disattivare l’ambiente quando lo desideriamo con ``` . env/bin/deactivate ```
 Si noterà che l’ambiente è stato avviato dalla presenza nella linea di comando del tag (env) all’inizio.
+
 Una volta attivato l’ambiente, il passo successivo sarà quello di istallare Django:
-“pip install django”
-	E una volta istallato verifichiamo la versione:
-			“django-admin -–version”
-	Ora sarà possibile creare il progetto, creiamo un progetto Django con il nome “testsite”:
-			“django-admin startproject testsite”
+
+```
+pip install django
+```
+
+E una volta istallato verifichiamo la versione:
+```			
+django-admin -–version
+```
+
+Ora sarà possibile creare il progetto, creiamo un progetto Django con il nome “testsite”:
+
+```
+django-admin startproject testsite
+```
 
 Spostiamoci nella cartella testsite e controlliamo cosa c’è dentro:
-“cd testsite”
-“ls”
+
+```
+cd testsite
+ls
 Output: [manage.py	testsite]
-			“cd testsite”
-			“ls”
-			Output: [__init__.py 	 settings.py  	urls.py  	wsgi.py]
+cd testsite
+ls
+Output: [__init__.py 	 settings.py  	urls.py  	wsgi.py]
+```
 	
-•	__init__.py funge da punto di ingresso per il progetto Python.
-•	settings.py descrive la configurazione dell’installazione di Django e fa sapere a Django quali impostazioni sono disponibili.
-•	urls.py contiene un urlpattern che mappa gli URL alle viste nel file views.
-•	wsgi.py contiene la configurazione per l'interfaccia del gateway del server Web. La Web Server Gateway Interface ( WSGI ) è lo standard della piattaforma Python per la distribuzione di server Web e applicazioni.
+
 L’ultimo passo di configurazione consiste nell’avviare il server locale e visualizare il sito web di esempio di Django. Il comando da utilizzare è runserver.
 Prima di avviare il sito, sarà necessario aggiungere l’indirizzo IP del server all’elenco degli ALLOWED_HOST. Elenco che possiamo trovare nel file setting.py.
 Partendo dalla cartella /django-apps:
-“nano testsite/testsite/setting.py”
-	E nel file cercare ALLOWED_HOST:
+
+```
+nano testsite/testsite/setting.py
+```
+
+E nel file cercare ALLOWED_HOST:
 	
 
 
