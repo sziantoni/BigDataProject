@@ -7,13 +7,13 @@ Nella parte successiva dell’elaborato verrà descritta la creazione di una sem
 ## Creazione VPC
 
 Il primo step da svolgere consiste nella creazione di una VPC (Virtual private Cloud) che ci permette di avviare le risorse di AWS in una rete virtuale personalizzata.
-•	Nella barra di ricerca della console AWS scrivere “VPC” e selezionare il primo risultato.
-•	Cliccare su “Launch VPC Wizard” e cliccare su Select.
-•	Assegnare un nome alla VPC e cliccare su “Create VPC”.
-•	Una volta concluso, cliccare nel menù di sinistra la voce “Subnets”
-•	Dovrebbe comparire una subnet pubblica chiamata “Public Subnet”. A questo punto cambiare il nome della subnet per renderla riconoscibile.
-•	Selezionare la subnet e cliccare su “Actions”, e selezionare la voce “Modify auto-assign IP settings”. Quindi selezionare “Auto-assign IPv4”. In questo modo sarà 	         possibile comunicare con le istanze tramite SSH perché AWS assegnerà loro IPv4 pubblici.
-•	Abbiamo quindi creato la subnet all’interno della quale creeremo le istanze.
+*	Nella barra di ricerca della console AWS scrivere “VPC” e selezionare il primo risultato.
+*	Cliccare su “Launch VPC Wizard” e cliccare su Select.
+*	Assegnare un nome alla VPC e cliccare su “Create VPC”.
+*	Una volta concluso, cliccare nel menù di sinistra la voce “Subnets”
+*	Dovrebbe comparire una subnet pubblica chiamata “Public Subnet”. A questo punto cambiare il nome della subnet per renderla riconoscibile.
+*	Selezionare la subnet e cliccare su “Actions”, e selezionare la voce “Modify auto-assign IP settings”. Quindi selezionare “Auto-assign IPv4”. In questo modo sarà 	         possibile comunicare con le istanze tramite SSH perché AWS assegnerà loro IPv4 pubblici.
+*	Abbiamo quindi creato la subnet all’interno della quale creeremo le istanze.
 
 ## Creazione istanza t2.micro con Spark 
 
