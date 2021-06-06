@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
        #fs = s3fs.S3FileSystem(key='[AWS KEY ID], secret='[AWS SECRET KEY]')
 
-       #with fs.open('s3://resultsziantoni/file_test.csv', 'wb') as f:
+       #with fs.open('s3://[RESULTS BUCKET NAME]/file_test.csv', 'wb') as f:
        #       f.write(btw)
 
        sc.stop()
