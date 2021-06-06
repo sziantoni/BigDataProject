@@ -405,7 +405,7 @@ Nel caso in cui volessimo eliminare il cluster creato, sarà possibile eseguire 
 
 # 2: Testing, risultati e salvataggio su S3
 
-2.1	Introduzione test
+## 2.1	Introduzione test
 
 Nel caso di questo progetto, il cluster utilizzato è composto da 10 nodi. Un nodo master e 9 nodi slaves. Si è scelto di non usare il master anche come slave perché creava problemi nel submit a Spark.
 Quindi, una volta specificato in Terraform 9 come numero di istanze da creare e 2 come indice di partenza, è stato creato il cluster tramite gli script Terraform esposti in precedenza.
@@ -414,26 +414,27 @@ Il test svolto su questo cluster utilizza un file di testo come input, e tramite
 
 Il file di test in input è salvato su S3, e anche il risultato della computazione sarà salvato come CSV su S3.
 
-2.2	S3:
+## 2.2	S3:
 Per utilizzare lo storage di Amazon S3 i passi sono semplici e veloci.
 •	Nella barra di ricerca della console AWS digitare S3 e selezionare il primo risultato.
 •	Cliccare sul testo “Create Bucket”
 •	Dare un nome al bucket e cliccare “Create Bucket” in fondo alla pagina.
 •	Una volta creato il bucket, cliccarci sopra e aprirlo
-•	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt” nel repository Gitub dopo averlo scaricato.
+•	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt” nel repository Gitub dopo averlo             	 scaricato.
 Una volta caricato il file di testo su S3, sarà possibile utilizzarlo in Spark.
 Nel caso in cui il file dump.txt fosse troppo grande, è possibile splittarlo con il comando:
-“split dump.txt -b [x]m –additional-suffix=.txt”
+
+```
+split dump.txt -b [x]m –additional-suffix=.txt
+```
+
 Dove [x] indica I megabyte di dimensione di ciascun file splittato.
 
-
-
-
-
-2.3	Submit al cluster 
+## 2.3	Submit al cluster 
 
 Lo script che verrà utilizzato è lo script “example.py” presente nel repository di GitHub.
 
+```
 import […]
 
 if __name__ == "__main__":
@@ -456,30 +457,38 @@ counts = file_.map(lambda line: [(i, 1) for i in set(line.split(" "))]).flatMap(
        #       f.write(btw)
 
        sc.stop()
-
+```
 
 Nello script viene utilizzato sc.textFile per leggere il file da S3. Per poter utilizzare “s3a” dovremo includere questo framework nel comando di submit che verrà esposto a breve, e inoltre avremo bisogno di esportare le nostre credenziali AWS quindi sarà necessario digitare e inviare i comandi:
 
+```
 export AWS_ACCESS_KEY_ID=[ID AWS]
 export AWS_SECRET_ACCESS_KEY=[CHIAVE SEGRETA AWS]
+```
 
 Entrambe le credenziali si possono trovare nel file scaricato in precedenza nella configurazione della CLI.
 Una volta fatto questo sarà possibile fare il submit dello script al cluster in modalità Standalone.
 Per farlo, prima di tutto, bisognerà avviare Spark con i comandi da eseguire nella home:
 
-“./spark/sbin/start-master.sh”
-“./spark/sbin/start-slaves.sh”
+```
+./spark/sbin/start-master.sh
+./spark/sbin/start-slaves.sh
+```
 
 Una volta eseguiti i comandi, controllare che tutti i nodi slaves sono stati avviati correttamente.
 Per farlo, prima di tutto, torniamo nella console AWS e clicchiamo su “Security Group”. 
 Selezioniamo il nostro gruppo di sicurezza, e nel menù in basso selezioniamo “Inboud” e aggiungere la regola “All Traffic – my IP”.
 Successivamente sarà possibile visualizzare il cluster avviato nel sito web:
 
+```
 http://INDIRIZZO_DNS_PUBBLICO_ NAMENODE:8080
+```
 
 Se il cluster risulta avviato correttamente, è possibile fare il submit dello script con il comando:
 
+```
 ./spark/bin/spark-submit --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://namenode:7077 --executor-memory 1G  --total-executor-cores 9 example.py
+```
 
 Notiamo come nel commando vengano inclusi i pacchetti necessari per utilizzare s3a, e inoltre sono presenti le opzioni “totale-executors-cores” che ci permette di scegliere quanti core utilizzare (nel nostro caso ogni macchina ha un solo core quindi questo numero coincide con il numero di macchine tra le quali spartire il lavoro), e l’opzione “executor-memory”, che invece ci permette di specificare quanta memoria assegnare a ogni core.
 
@@ -487,47 +496,13 @@ Nello script la parte commentata dopo la stampa del risultato di counts è la pa
 Per poter salvare i risultati sarà necessario creare un bucket su S3 per contenerli, nel caso di questo progetto è stato creato il bucket “resultsziantoni”.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 2.4	Risultati
 
 I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.5 GB, i risultati sono:
-Application ID	Name	Cores	Memory per Executor	Submitted Time	Duration	Size
-app-20210601171042-0000
-example.py	9	1024.0 MB	01/06/2021 17:10	29 s	500MB
+
+Application ID | Name	|Cores	|Memory per Executor	|Submitted Time	|Duration	|Size
+---------------|--------|-------|-----------------------|---------------|---------------|----
+app-20210601171042-0000| example.py	|9	|1024.0 MB	|01/06/2021 17:10	|29 s	|500MB
 app-20210601171133-0001
 example.py	5	1024.0 MB	01/06/2021 17:11	36 s	500MB
 app-20210601171237-0002
