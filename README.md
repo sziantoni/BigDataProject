@@ -501,7 +501,9 @@ Per poter salvare i risultati sarà necessario creare un bucket su S3 per conten
 
 ## Risultati
 
-I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.35 GB, i risultati sono:
+I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.35 GB.
+I file utilizzati per i test sono stati caricati su MEGA e sono scaricabili da i link specificati nel file "dump_file_links.md".
+I risultati sono:
 
 Application ID         | Name	        |Cores	|Memory per Executor    |Submitted Time	|Duration |Size
 -----------------------|----------------|-------|-----------|-------------------|---------|----
