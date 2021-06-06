@@ -66,24 +66,26 @@ chmod 400 /home/ubuntu/.ssh/chiave.pem
 
 Ora, nella shell connessa all’istanza namenode scrivere:
 
-“sudo nano /etc/hosts”
+```
+sudo nano /etc/hosts
+```
 
 
 E scrivere nel file:
 
+```
 IP PRIVATO DI NAMENODE namenode
 IP PRIVATO DI NAMENODE datanode1
+```
 
 Salvare, quindi scrivere:
 
-“nano /home/ubuntu/.ssh/config”
-
-
-
-
-
+```
+nano /home/ubuntu/.ssh/config
+```
 E scrivere nel file:
 
+```
 Host namenode
 HostName namenode
 User ubuntu
@@ -92,43 +94,47 @@ Host datanode1
 HostName namenode
 User ubuntu
 IdentityFile /home/ubuntu/.ssh/[NOME CHIAVE].pem
+```
 
-Set-up Java e Spark
+## Set-up Java e Spark
 
 Aggiornare la macchina e istallare Java e Spark tramite i comandi:
 
-“sudo apt-get update && sudo apt-get dist-upgrade”
+```
+sudo apt-get update && sudo apt-get dist-upgrade
 
-“sudo apt-get install openjdk-8-jdk”
+sudo apt-get install openjdk-8-jdk
 
-“wget https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz”
+wget https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
 
-“tar -xvzf spark-2.4.4-bin-hadoop2.7.tgz”
+tar -xvzf spark-2.4.4-bin-hadoop2.7.tgz
 
-“sudo mv ./spark-2.4.4-bin-hadoop2.7 /home/ubuntu/spark”
+sudo mv ./spark-2.4.4-bin-hadoop2.7 /home/ubuntu/spark
 
-“rm spark-2.4.4-bin-hadoop2.7.tgz”
+rm spark-2.4.4-bin-hadoop2.7.tgz
 
-“sudo cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh”
-
+sudo cp spark/conf/spark-env.sh.template spark/conf/spark-env.sh
+```
 
 Quindi modificare le variabili d’ambiente:
 
-“sudo nano /etc/environment”
-   	E scrivere nel file:
+```
+sudo nano /etc/environment
+```
+
+E scrivere nel file:
+
+```
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:"
 JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+```
 
 Quindi:
 
-“source /etc/environment”
-“nano /home/ubuntu/.profile”
-
-
-
-
-
-
+```
+source /etc/environment
+nano /home/ubuntu/.profile
+```
 
 E scrivere nel file:
 
@@ -137,84 +143,129 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 E infine:
 
-“source /home/ubuntu/.profile”
+```
+source /home/ubuntu/.profile
+```
 
 Successivamente Andiamo a concludere la configurazione di Spark:
 
-“sudo nano spark/conf/spark-env.sh”
+```
+sudo nano spark/conf/spark-env.sh
+```
 
 E scrivere all’interno del file:
 
+```
 export SPARK_MASTER_HOST=namenode
 export PYSPARK_PYTHON="/usr/bin/python3"
+```
 
 Andiamo quindi a creare il file slaves che ci sarvirà per far partire tutti gli slaves del cluster con un unico script.
-“nano spark/conf/slaves”
+
+```
+nano spark/conf/slaves
+```
+
 Salvare il file senza scrivere nulla. Nel caso di questo progetto, il namenode è solo master e tutti gli slave per spark sono creati tramite Terraform. Anche questo ultimo file sarà aggiornato in automatico tramite Terraform.
 L’ultima cosa da fare per concludere la configurazione dell’istanza è istallare “pandas”. Avremo bisogno di questa libreria per la fase di testing.
 Eseguire i seguenti comandi:
-“sudo apt install python3-pip”
-“python3 -m pip install pandas”
 
-1.3 Copiare l’AMI
+```
+sudo apt install python3-pip
+python3 -m pip install pandas
+```
+
+## 1.3 Copiare l’AMI
 
 A questo punto, conclusa la configurazione dell’istanza namenode, andremo a creare una copia AMI, uno snapshot dell’istanza che permetterà a Terraform di ricreare istanze con gli stessi settaggi di namenode in automatico. Saranno le istanze utilizzate nel cluster.
 
 Per farlo, dal menù di EC2 cliccare con il tasto destro sull’istanza namenode, quindi “Image” e “Create Image”. Scegliere un nome per l’immagine e cliccare su “Create Image”.
 
 Una volta creata l’immagine, quest’ultima sarà accessibile dal menù sulla sinistra alla voce “AMI” sotto “Images”.
-1.4 AWS CLI
+
+## 1.4 AWS CLI
 
 Installiamo la CLI AWS in modo che poi possa essere utilizzata da Terraform per accedere alle nostre risorse:
 
-“curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"”
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 
-“unzip awscliv2.zip”
+unzip awscliv2.zip
 
-“sudo ./aws/install”
+sudo ./aws/install
 
-“rm awscliv2.zip”
+rm awscliv2.zip
+```
 
 Poi aprire la console AWS. Cliccare sul proprio nome utente in alto a destra e scegliere “Le mie credenziali di sicurezza” Aprire il tab "Chiavi di accesso" e selezionare "Crea nuova chiave di accesso". Si aprirà una finestra di dialogo da cui si potranno scaricare le chiavi cliccando "Scarica file di chiavi".
 
 Una volta scaricato il file scrivere sulla shell:
 
-“aws configure”
+```
+aws configure
+```
 
 E inserire i dati uno alla volta presenti nel file scaricato.
 Come regione impostare quella della propria istanza, come formato di output scrivere “json”.
 
-1.5	Configurazione Terraform
+## 1.5 Configurazione Terraform
 
 A questo punto possiamo configurare Terraform. Infatti, non sarà necessario che sia presente nella copia dell’AMI perché verrà usato solo su namenode.
 Eseguire il comando:
 
-“wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip”
+```
+wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+```
 
 Installare unzip per estrarre il file zip scaricato
 
-“sudo apt install unzip”
-	Quindi estrarre il contenuto del file zip e rimuoverlo:
-				“unzip terraform_0.12.24_linux_amd64.zip”
-				“rm terraform_0.12.24_linux_amd64.zip”
+```
+sudo apt install unzip
+```
+Quindi estrarre il contenuto del file zip e rimuoverlo:
+
+```
+unzip terraform_0.12.24_linux_amd64.zip
+rm terraform_0.12.24_linux_amd64.zip
+```
 
 Quindi creiamo la cartella per Terraform e mettiamo al suo interno la cartella estratta:
 
-“mkdir Terraform”
+```
+mkdir Terraform
 
-“mv terraform Terraform/”
-	Ora sarà necessario aggiornare le variabili d’ambiente, digitare:
-				“sudo nano /etc/environment”
+mv terraform Terraform/
+```
 
-	E scrivere alla fine della stringa PATH aggiunta prima:
-				“:/home/ubuntu/Terraform”
-	Quindi:
-“source /etc/environment”
+Ora sarà necessario aggiornare le variabili d’ambiente, digitare:
+
+```
+sudo nano /etc/environment
+```
+
+E scrivere alla fine della stringa PATH aggiunta prima:
+
+```
+:/home/ubuntu/Terraform
+```
+
+Quindi:
+
+```
+source /etc/environment
+```
+
 A questo punto sarà necessario creare il file di configurazione di Terraform, chiamato “main.tf”
 Digitare:
 
-“nano Terraform/main.tf”
-	E scrivere all’interno del file:
+```
+nano Terraform/main.tf
+```
+
+E scrivere all’interno del file:
+
+```
+
 provider "aws" {
   profile = "default"
   region = "[REGION]"
@@ -240,39 +291,50 @@ interpreter = ["bash", "/home/ubuntu/Setup.sh", "[NOME CHIAVE]", "[INDICE DI   P
       on_failure = continue
    }
 }
-	Come si nota, in questo file sono presenti una serie di opzioni da specificare:
+```
+
+Come si nota, in questo file sono presenti una serie di opzioni da specificare:
 •	[REGION]: regione utilizzata (ad esempio us-east-1)
 •	[ID AMI]: ID dell’AMI che si può trovare nell’AMI su AWS cliccandoci sopra e aprendo il menù in basso.
 •	[ID SUBNET]: L’ID della VPC create inizialmente, che si trova nel menù VPC cliccando sulla VPC Creata e aprendo il menù in basso.
-•	[ID GRUPPO DI SICUREZZA]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo il menù in basso.
+•	[ID GRUPPO DI SICUREZZA]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo                                   il menù in basso.
 •	[NUMERO DI ISTANZE DA CREARE]: Il numero di istanze che vogliamo utilizzare nel cluster.
 •	[NOME CHIAVE]: il nome della chiave scaricata in locale
-•	[INDICE DI PARTENZA]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2, datanode3, datanode4.
+•	[INDICE DI PARTENZA]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2,                                     datanode3, datanode4.
 Inoltre, nel file, sono presenti anche due chiamate a script esterni, uno di Setup del cluster, che imposta le istanze appena create in automatico, e uno di pulizia del cluster che riporta all’impostazione iniziale precedente alla creazione delle istanze tramite Terraform.
 Creare il primo file con il comando:
-“nano Setup.sh”
-	E scrivere all’interno del file:
-	#!/bin/bash
+
+```
+nano Setup.sh
+```
+
+E scrivere all’interno del file:
+
+```
+#!/bin/bash
 cat /etc/hosts > /home/ubuntu/.tmpHosts
 cat /home/ubuntu/.ssh/config > /home/ubuntu/.tmpSSHConfig
 index=$2
 IFS='_' read -ra IPs <<<$3
 for i in ${IPs[@]}; do
-awk -v ip="$i" -v idx="$index" '!x{x=sub(/^$/,ip" datanode"idx"\n")}1' /etc/hosts > _tmp && sudo mv _tmp /etc/hosts
-echo -e "Host datanode${index}\nHostName datanode${index}\nUser ubuntu\nIdentityFile /home/ubuntu/.ssh/${1}.pem" >> /home/ubuntu/.ssh/config
-    echo "datanode${index}" | sudo tee -a /home/ubuntu/spark/conf/slaves
-    index=$((index + 1))
+	awk -v ip="$i" -v idx="$index" '!x{x=sub(/^$/,ip" datanode"idx"\n")}1' /etc/hosts > _tmp && sudo mv _tmp /etc/hosts
+	echo -e "Host datanode${index}\nHostName datanode${index}\nUser ubuntu\nIdentityFile /home/ubuntu/.ssh/${1}.pem" >> /home/ubuntu/.ssh/config
+   	echo "datanode${index}" | sudo tee -a /home/ubuntu/spark/conf/slaves
+   	index=$((index + 1))
 done
+```
+
 Lo script si occupa di configurare la connessione ssh e la configurazione di Spark per ogni datanode.
 Poi creiamo il secondo file:
-“nano Clear.sh”
-	
 
-
-
+```
+nano Clear.sh
+```
 
 E scriviamo all’interno del file:
-	#!/bin/bash
+
+```
+#!/bin/bash
 n_datanodes=$2
 END=$((n_datanodes+2))
 for ((i=$1;i<END;i++)); do
@@ -282,41 +344,66 @@ sudo echo "datanode1" > /home/ubuntu/spark/conf/slaves
 sudo mv /home/ubuntu/.tmpHosts /etc/hosts
 sudo mv /home/ubuntu/.tmpSSHConfig /home/ubuntu/.ssh/config
 sudo rm -r /tmp/*
-	Salviamo e diamo i permessi ai file appena creati:
-				“chmod 777 Setup.sh”
-				“chmod 777 Clear.sh”
+```
+
+Salviamo e diamo i permessi ai file appena creati:
+
+```
+chmod 777 Setup.sh
+chmod 777 Clear.sh
+```
+
 Infine, sarà necessario creare un terzo script, attraverso il quale sarà possibile aggiornare la configurazione interna dei datanodes una volta creati:
-“nano settingNewNodes.sh”
- E scrivere all’interno del file:
-     	 #!/bin/bash
+
+```
+nano settingNewNodes.sh
+```
+
+E scrivere all’interno del file:
+
+```
+#!/bin/bash
 n_datanodes=$2
 END=$((n_datanodes+2))
 for ((i=$1;i<END;i++)); do
     cat /etc/hosts | ssh -oStrictHostKeyChecking=no datanode$i "sudo sh -c 'cat >/etc/hosts'"
     cat /home/ubuntu/.ssh/config | ssh -oStrictHostKeyChecking=no datanode$i "sudo sh -c 'cat >/home/ubuntu/.ssh/config'"
 done
+```
+
 Salvare il file e dare i permessi con il comando:
-				“chmod 777 settingNewNodes.sh”
+
+```
+chmod 777 settingNewNodes.sh
+```
+
 Per eseguire questo script bisognerà scrivere:
-“bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]”
+
+```
+bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
+```
        
-1.6	Creazione Cluster
+## 1.6 Creazione Cluster
 
 A questo punto avremo tutto impostato per creare il cluster.
 Dopo aver popolato il file main.tf con le impostazioni desiderate, spostarsi nella cartella di /Terraform e digitare:
 
-“terraform init”
-“terrafrom apply”
+```
+terraform init
+terrafrom apply
+```
 
 Terraform provvederà a creare le istanze secondo le informazioni specificate nel file main.tf. 
 Quando terraform ha concluso la creazione delle istanze, tornare nella home e eseguire:
 
-“bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]”
+```
+bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
+```
 
 Nel caso in cui volessimo eliminare il cluster creato, sarà possibile eseguire “terraform destroy” nella cartella di terraform e riportare così il tutto alla impostazione precedente la creazione del cluster.
 
 
-2: Testing, risultati e salvataggio su S3
+# 2: Testing, risultati e salvataggio su S3
 
 2.1	Introduzione test
 
