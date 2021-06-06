@@ -435,7 +435,7 @@ Dove [x] indica I megabyte di dimensione di ciascun file splittato.
 
 Lo script che verrà utilizzato è lo script “example.py” presente nel repository di GitHub.
 
-```
+```python
 import […]
 
 if __name__ == "__main__":
@@ -665,7 +665,7 @@ Amazon Athena è un servizio fornito da Amazon AWS per analizzare dati memorizza
 
 Nello script di test che è stato utilizzato era presente un pezzo di codice che si occupava di salvare i dati su un bucket S3 precedentemente creato, in formato CSV.
 
-```
+```python
 import […]
 
 if __name__ == "__main__":
