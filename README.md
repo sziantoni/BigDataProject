@@ -5,7 +5,7 @@ Successivamente, viene eseguito tramite il cluster uno script in Python che si o
 I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
 Nella parte successiva dell’elaborato verrà descritta la creazione di una semplice interfaccia grafica in Django, tramite la quale sarà possibile interrogare i risultati della computazione sfruttando le query SQL-Like eseguibili in Amazon Athena su S3.
 
-LINK FILE DI UNPUT "dump.txt" DA 1.5GB UTILIZZATO PER I TEST: https://mega.nz/file/LIIHhKRB#CXtwXOfKrRRAtQSRPQVO9L5ulfniUGBGp0KLu6FLFTI
+LINK FILE DI UNPUT "dump.txt" DA 1.35GB UTILIZZATO PER I TEST: https://mega.nz/file/LIIHhKRB#CXtwXOfKrRRAtQSRPQVO9L5ulfniUGBGp0KLu6FLFTI
 
 # Creazione cluster con Spark e Terraform:
 ## Creazione VPC
@@ -503,7 +503,7 @@ Per poter salvare i risultati sarà necessario creare un bucket su S3 per conten
 
 ## Risultati
 
-I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.5 GB, i risultati sono:
+I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.35 GB, i risultati sono:
 
 Application ID         | Name	        |Cores	|Memory per Executor    |Submitted Time	|Duration |Size
 -----------------------|----------------|-------|-----------|-------------------|---------|----
@@ -522,16 +522,16 @@ app-20210601161901-0001|example.py	|5	|1024.0 MB|  01/06/2021 16:19	|59 s	  |1GB
 app-20210601162029-0002|example.py	|3	|1024.0 MB|  01/06/2021 16:20	|1.3 min  |1GB
 app-20210601162215-0003|example.py	|2	|1024.0 MB|  01/06/2021 16:22	|1.8 min  |1GB
 app-20210601162434-0004|example.py	|1	|1024.0 MB|  01/06/2021 16:24	|3.4 min  |1GB
-app-20210601183914-0005|example.py	|9	|500.0 MB|   01/06/2021 18:39	|50 s	  |1.5GB
-app-20210601184031-0006|example.py	|5	|500.0 MB|   01/06/2021 18:40	|1.2 min  |1.5GB
-app-20210601184208-0007|example.py	|3	|500.0 MB|   01/06/2021 18:42	|1.7 min  |1.5GB
-app-20210601184418-0008|example.py	|2	|500.0 MB|   01/06/2021 18:44	|2.4 min  |1.5GB
-app-20210601184708-0009|example.py	|1	|500.0 MB|   01/06/2021 18:47	|4.5 min  |1.5GB
-app-20210601182601-0000|example.py	|9	|1024.0 MB|  01/06/2021 18:26	|49 s	  |1.5GB
-app-20210601182719-0001|example.py	|5	|1024.0 MB|  01/06/2021 18:27	|1.2 min  |1.5GB
-app-20210601182857-0002|example.py	|3	|1024.0 MB|  01/06/2021 18:28	|1.7 min  |1.5GB
-app-20210601183107-0003|example.py	|2	|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1.5GB
-app-20210601183406-0004|example.py	|1	|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.5GB
+app-20210601183914-0005|example.py	|9	|500.0 MB|   01/06/2021 18:39	|50 s	  |1.35GB
+app-20210601184031-0006|example.py	|5	|500.0 MB|   01/06/2021 18:40	|1.2 min  |1.35GB
+app-20210601184208-0007|example.py	|3	|500.0 MB|   01/06/2021 18:42	|1.7 min  |1.35GB
+app-20210601184418-0008|example.py	|2	|500.0 MB|   01/06/2021 18:44	|2.4 min  |1.35GB
+app-20210601184708-0009|example.py	|1	|500.0 MB|   01/06/2021 18:47	|4.5 min  |1.35GB
+app-20210601182601-0000|example.py	|9	|1024.0 MB|  01/06/2021 18:26	|49 s	  |1.35GB
+app-20210601182719-0001|example.py	|5	|1024.0 MB|  01/06/2021 18:27	|1.2 min  |1.35GB
+app-20210601182857-0002|example.py	|3	|1024.0 MB|  01/06/2021 18:28	|1.7 min  |1.35GB
+app-20210601183107-0003|example.py	|2	|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1.35GB
+app-20210601183406-0004|example.py	|1	|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.35GB
 
 
 # Interfaccia in Django per query con AWS Athena su S3
