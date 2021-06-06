@@ -423,7 +423,7 @@ Per utilizzare lo storage di Amazon S3 i passi sono semplici e veloci.
 *	Cliccare sul testo “Create Bucket”
 *	Dare un nome al bucket e cliccare “Create Bucket” in fondo alla pagina.
 *	Una volta creato il bucket, cliccarci sopra e aprirlo
-*	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt” nel repository Gitub dopo averlo             	 scaricato.
+*	Successivamente, cliccare su “Upload” e seguire la procedura di caricamento del file di testo selezionando il file “dump.txt”. Il file è scaricabile dal link presente           nel file "dump_file_links.md" del repository Gitub.
 Una volta caricato il file di testo su S3, sarà possibile utilizzarlo in Spark.
 Nel caso in cui il file dump.txt fosse troppo grande, è possibile splittarlo con il comando:
 
