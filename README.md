@@ -500,17 +500,13 @@ Per poter salvare i risultati sarà necessario creare un bucket su S3 per conten
 
 I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più o meno nodi e più o meno memoria. Sono stati utilizzati tre file, uno da 500 MB, uno da 1 GB entrambi porzioni del terzo file da 1.5 GB, i risultati sono:
 
-Application ID | Name	|Cores	|Memory per Executor	|Submitted Time	|Duration	|Size
----------------|--------|-------|-----------------------|---------------|---------------|----
-app-20210601171042-0000| example.py	|9	|1024.0 MB	|01/06/2021 17:10	|29 s	|500MB
-app-20210601171133-0001
-example.py	5	1024.0 MB	01/06/2021 17:11	36 s	500MB
-app-20210601171237-0002
-example.py	3	1024.0 MB	01/06/2021 17:12	45 s	500MB
-app-20210601171408-0003
-example.py	2	1024.0 MB	01/06/2021 17:14	60 s	500MB
-app-20210601171607-0004
-example.py	1	1024.0 MB	01/06/2021 17:16	1.7 min	500MB
+Application ID         | Name	        |Cores	|Memory     |Submitted Time	|Duration |Size
+-----------------------|----------------|-------|-----------|-------------------|---------|----
+app-20210601171042-0000| example.py	|9	|1024.0 MB  |01/06/2021 17:10	|29 s	  |500MB
+app-20210601171133-0001| example.py	|5	|1024.0 MB  |01/06/2021 17:11	|36 s	  |500MB
+app-20210601171237-0002 |example.py	3	1024.0 MB	01/06/2021 17:12	45 s	500MB
+app-20210601171408-0003 |example.py	2	1024.0 MB	01/06/2021 17:14	60 s	500MB
+app-20210601171607-0004 |example.py	1	1024.0 MB	01/06/2021 17:16	1.7 min	500MB
 app-20210601172146-0000
 example.py	9	500.0 MB	01/06/2021 17:21	49 s	1GB
 app-20210601172321-0001
