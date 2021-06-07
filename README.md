@@ -5,6 +5,8 @@ Successivamente, viene eseguito tramite il cluster uno script in Python che si o
 I risultati della computazione, così come i dati in input, vengono salvati sullo storage di Amazon S3. 
 Nella parte successiva dell’elaborato verrà descritta la creazione di una semplice interfaccia grafica in Django, tramite la quale sarà possibile interrogare i risultati della computazione sfruttando le query SQL-Like eseguibili in Amazon Athena su S3.
 
+La versione PDF in italiano e in inglese del report possono essere scaricati dal repository.
+
 # Creazione cluster con Spark e Terraform:
 ## Creazione VPC
 
