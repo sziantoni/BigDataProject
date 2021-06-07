@@ -271,7 +271,6 @@ nano Terraform/main.tf
 E scrivere all’interno del file:
 
 ```
-
 provider "aws" {
   profile = "default"
   region = "[REGION]"
@@ -281,32 +280,33 @@ resource "aws_instance" "testInstances" {
    instance_type = "t2.micro"
    subnet_id = "[ID SUBNET]"
    vpc_security_group_ids = [
-      "[ID GRUPPO DI SICUREZZA]",
+      "[ID SECURITY GROUP]",
    ]
-   count = [NUMERO DI ISTANZE DA CREARE]
+   count = [NUMBER OF INSTANCES TO CREATE]
 }
 resource "null_resource" "testInstances" {
    provisioner "local-exec" {
       command = join("_", aws_instance.testInstances.*.private_ip)
-interpreter = ["bash", "/home/ubuntu/Setup.sh", "[NOME CHIAVE]", "[INDICE DI   PARTENZA]"]
+interpreter = ["bash", "/home/ubuntu/Setup.sh", "[KEY NAME]", "[INDEX START]"]
    }
    provisioner "local-exec" {
       when = destroy
-      command = [NUMERO ISTANZE DA CREARE]
-      interpreter = ["bash", "/home/ubuntu/Clear.sh", "[INDICE DI PARTENZA]"]
+      command = [NUMBER OF INSTANCES TO CREATE]
+interpreter = ["bash", "/home/ubuntu/Clear.sh", "[INDEX START]"]
       on_failure = continue
-   }
-}
+   }}
+
 ```
 
 Come si nota, in questo file sono presenti una serie di opzioni da specificare:
 *	[REGION]: regione utilizzata (ad esempio us-east-1)
 *	[ID AMI]: ID dell’AMI che si può trovare nell’AMI su AWS cliccandoci sopra e aprendo il menù in basso.
-*	[ID SUBNET]: L’ID della VPC create inizialmente, che si trova nel menù VPC cliccando sulla VPC Creata e aprendo il menù in basso.
-*	[ID GRUPPO DI SICUREZZA]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo                                   il menù in basso.
-*	[NUMERO DI ISTANZE DA CREARE]: Il numero di istanze che vogliamo utilizzare nel cluster.
-*	[NOME CHIAVE]: il nome della chiave scaricata in locale
-*	[INDICE DI PARTENZA]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2,                                     datanode3, datanode4.
+*	[SUBNET ID]: L’ID della VPC create inizialmente, che si trova nel menù VPC cliccando sulla VPC Creata e aprendo il menù in basso.
+*	[ID SECURITY GROUP]: ID del Gruppo di sicurezza creato in precedenza, che si trova nel campo Security Group del menù di AWS, cliccando sul security group e aprendo il menù in basso.
+*	[NUMBER OF INSTANCES TO CREATE]: Il numero di istanze che vogliamo utilizzare nel cluster.
+*	[KEY NAME]: il nome della chiave scaricata in locale
+*	[INDEX START]: l’indice di partenza da cui nominare i nuovi nodi, ad esempio mettendo 2 e creando un cluster di tre nodi, questi si chiameranno datanode2, datanode3, datanode4.
+
 Inoltre, nel file, sono presenti anche due chiamate a script esterni, uno di Setup del cluster, che imposta le istanze appena create in automatico, e uno di pulizia del cluster che riporta all’impostazione iniziale precedente alla creazione delle istanze tramite Terraform.
 Creare il primo file con il comando:
 
@@ -386,7 +386,7 @@ chmod 777 settingNewNodes.sh
 Per eseguire questo script bisognerà scrivere:
 
 ```
-bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
+bash settingNewNodes.sh [INDEX START] [NUMBER OF INSTANCES CREATED]
 ```
        
 ## Creazione Cluster
@@ -403,7 +403,7 @@ Terraform provvederà a creare le istanze secondo le informazioni specificate ne
 Quando terraform ha concluso la creazione delle istanze, tornare nella home e eseguire:
 
 ```
-bash settingNewNodes.sh [INDICE DI PARTENZA] [NUMERO DI ISTANZE CREATE]
+bash settingNewNodes.sh [INDEX START] [NUMBER OF INSTANCES CREATED]
 ```
 
 Nel caso in cui volessimo eliminare il cluster creato, sarà possibile eseguire “terraform destroy” nella cartella di terraform e riportare così il tutto alla impostazione precedente la creazione del cluster.
