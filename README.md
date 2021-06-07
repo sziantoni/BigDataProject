@@ -721,8 +721,8 @@ pip3 install pandas
 Dopo aver installato la libreria fare il submit al cluster dello script con la parte di scrittura su S3 non commentata, e a questo punto, a fine computazione, dovrebbe comparire il file nel bucket S3.
 
 Se tutto è stato eseguito correttamente, sarà possibile configurare Athena.
-•	Nella barra di ricerca della console di gestione AWS digitare “Athena”
-•	Una volta aperta l’interfaccia di Athena, copiare nel text-box delle query la query:
+*	Nella barra di ricerca della console di gestione AWS digitare “Athena”
+*	Una volta aperta l’interfaccia di Athena, copiare nel text-box delle query la query:
 
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS sampledb.result_table (
