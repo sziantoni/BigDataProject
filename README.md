@@ -904,14 +904,14 @@ def cleanup(session, params):
 Sarà necessario specificare le chiavi della CLI nella funzione clenup. 
 
 
-Per effettuare una query viene chiamata la funzione query(). Questa funzione fa partire la sessione boto3 e chiama la funzione “athena_to_s3” passandole i parametri in params e la session. 
-La funzione dovrà restituire il nome del file contenente i risultati della query se questa è andata a buon fine. 
-La funzione “athena_to_s3” inizia una sessione Athena nella regione specificata nei parametri. 
-Chiama quindi la funzione “athena_query” alla quale passa il client e l’insieme di parametri. 
-La funzione “athena_query” manda la query ad Athena, sottoponendo al database specificato in ‘database’ la query specificata nel campo ‘query’ di params. Definisce anche il path nel quale trovare l’output e restituisce la risposta alla query. 
-Nella seconda parte della funzione “athena_to_s3” la funzione effettua 5 tentativi massimo per trovare il file csv che dovrebbe contenere i risultati della query. Se il file viene trovato, restituisce il nome.
-Il nome del file verrà restituito alla funzione query(), che tramite boto3 aprirà il bucket e leggerà il file di risultati, convertendolo in Dataframe e poi in html con la funzione .to_html(), cosicché possa poi essere reindirizzato nella pagina del sito Django.
-Infine, la funzione di cleanup può essere utilizzata per pulire il bucket di risultati quando il limite di spazio in S3 è vicino.
+* Per effettuare una query viene chiamata la funzione query(). Questa funzione fa partire la sessione boto3 e chiama la funzione “athena_to_s3” passandole i parametri in params e la session. 
+* La funzione dovrà restituire il nome del file contenente i risultati della query se questa è andata a buon fine. 
+* La funzione “athena_to_s3” inizia una sessione Athena nella regione specificata nei parametri. 
+* Chiama quindi la funzione “athena_query” alla quale passa il client e l’insieme di parametri. 
+* La funzione “athena_query” manda la query ad Athena, sottoponendo al database specificato in ‘database’ la query specificata nel campo ‘query’ di params. Definisce anche il path nel quale trovare l’output e restituisce la risposta alla query. 
+* Nella seconda parte della funzione “athena_to_s3” la funzione effettua 5 tentativi massimo per trovare il file csv che dovrebbe contenere i risultati della query. Se il file viene trovato, restituisce il nome.
+* Il nome del file verrà restituito alla funzione query(), che tramite boto3 aprirà il bucket e leggerà il file di risultati, convertendolo in Dataframe e poi in html con la funzione .to_html(), cosicché possa poi essere reindirizzato nella pagina del sito Django.
+* Infine, la funzione di cleanup può essere utilizzata per pulire il bucket di risultati quando il limite di spazio in S3 è vicino.
 
 In generale, la strategia scelta per effettuare query ad Athena è sempre questa, ciò che cambia è il parametro ‘query’ in params.
 
