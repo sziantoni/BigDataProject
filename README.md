@@ -543,7 +543,9 @@ A questo punto verrà descritta la creazione dell’ambiente Django e verrà des
 
 L’ambiente Django e l’applicazione sono stati sviluppati in locale in un ambiente Python 3.8, ovviamente la stessa configurazione può essere riprodotta su un istanza EC2 con Python come quelle utilizzate finora. La scelta di sviluppare il tutto in locale è stata fatta per contenere i costi del Free Tier di AWS.
 
-In generale, verranno comunque trattate entrambe le configurazioni.
+L'intero codice necessario per eseguire l'applicazione Django è presente nella cartella 'django-apps' del repository. Verrà esposto come creare l'ambiente virtuale con virtualenv e successivamente come creare una applicazione base in Django. Dopo aver modificato alcuni file di configurazione, l'unica cosa necessaria da fare sarà copiare all'interno del proprio progetto locale la cartella 's3_website' presente in 'django-apps' per avere l'applicazione funzionante nella propria configurazione. Ovviamente i passaggi verranno spiegati passo passo.
+
+In generale, verranno trattate entrambe le configurazioni, in locale e su EC2.
 Prima di tutto, bisognerà controllare la presenza di Python e Pip.
 
 Nell’istanza EC2 dovremmo averli già configurati in precedenza. In locale è necessario eseguire i seguenti comandi:
@@ -613,7 +615,7 @@ Output: [__init__.py 	 settings.py  	urls.py  	wsgi.py]
 ```
 	
 
-L’ultimo passo di configurazione consiste nell’avviare il server locale e visualizare il sito web di esempio di Django. Il comando da utilizzare è runserver.
+L’ultimo passo di configurazione consiste nell’avviare il server locale e visualizzare il sito web di esempio di Django. Il comando da utilizzare è runserver.
 Prima di avviare il sito, sarà necessario aggiungere l’indirizzo IP del server all’elenco degli ALLOWED_HOST. Elenco che possiamo trovare nel file setting.py.
 Partendo dalla cartella /django-apps:
 
