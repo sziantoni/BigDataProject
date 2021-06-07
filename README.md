@@ -54,8 +54,7 @@ Dalla console AWS selezionare la voce “EC2”. Quindi selezionare la voce “I
 * Una volta che l’istanza è stata avviata, cliccare nuovamente con il destro sull’istanza e quindi su “Connect” o “Collegarsi”. 
 * Copiare la striga per la connessione SSH.
 * Aprire quindi una shell Linux nella cartella dove è stata scaricata la chiave. 
-* Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma
-* ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
+* Nella shell scrivere “sudo” e successivamente incollare la stringa di connessione. (Nella forma ssh -i chiave.pem ubuntu@INDIRIZZO DNS PUBBLICO DELL’ISTANZA).
 
 Una volta connessi all’istanza, aprire un'altra shell nella stessa cartella e digitare il comando:
 
