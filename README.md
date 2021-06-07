@@ -834,7 +834,7 @@ Notiamo che ci sono alcuni parametri da definire:
 
 [BUCKET-TO-SAVE-RESULTS]: un nuovo, terzo, bucket, che sarà necessario creare per permettere ad Athena di salvare i risultati. Ogni volta che Athena esegue una query, infatti, viene generato un file .csv con i risultati con un nome univoco, e questo file verrà salvato nel bucket specificato. Grazie a questo salvataggio fatto da Athena, sarà possibile recuperare questo file in S3 dopo aver completato la query e visualizzare i risultati in forma tabellare sul sito web.
 
-Le tre funzioni principali sono query, athena_query, athena_to_s3, e cleanup:
+Le tre funzioni principali sono query, athena_query e athena_to_s3:
 
 ```python
 def query():
