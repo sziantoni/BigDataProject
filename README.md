@@ -508,33 +508,33 @@ I test svolti vedono l’utilizzo di diverse configurazioni di cluster, con più
 I file utilizzati per i test sono stati caricati su MEGA e sono scaricabili da i link specificati nel file "dump_file_links.md".
 I risultati sono:
 
-Application ID         | Name	        |Cores	|Nodes|Memory per Executor    |Submitted Time	|Duration |Size
------------------------|----------------|-------|------------|-----------|-------------------|---------|----
-app-20210601171042-0000| example.py	|9	|9 |1024.0 MB  |01/06/2021 17:10	|29 s	  |500MB
-app-20210601171133-0001| example.py	|5	|5|1024.0 MB  |01/06/2021 17:11	|36 s	  |500MB
-app-20210601171237-0002 |example.py	|3	|3|1024.0 MB|  01/06/2021 17:12	|45 s	  |500MB
-app-20210601171408-0003 |example.py	|2	|2|1024.0 MB|  01/06/2021 17:14	|60 s	  |500MB
-app-20210601171607-0004 |example.py	|1	|1|1024.0 MB|  01/06/2021 17:16	|1.7 min  |500MB
-app-20210601172146-0000|example.py	|9	|9|500.0 MB|   01/06/2021 17:21	|49 s	  |1GB
-app-20210601172321-0001|example.py	|5	|5|500.0 MB|   01/06/2021 17:23	|1 min	  |1GB
-app-20210601172508-0002|example.py	|3	|3|500.0 MB|   01/06/2021 17:25	|1.3 min  |1GB
-app-20210601172653-0003|example.py	|2	|2|500.0 MB|   01/06/2021 17:26	|1.8 min  |1GB
-app-20210601172915-0004|example.py	|1	|1|500.0 MB|   01/06/2021 17:29	|3.4 min  |1GB
-app-20210601161732-0000|example.py	|9	|9|1024.0 MB|  01/06/2021 16:17	|42 s	  |1GB
-app-20210601161901-0001|example.py	|5	|5|1024.0 MB|  01/06/2021 16:19	|59 s	  |1GB
-app-20210601162029-0002|example.py	|3	|3|1024.0 MB|  01/06/2021 16:20	|1.3 min  |1GB
-app-20210601162215-0003|example.py	|2	|2|1024.0 MB|  01/06/2021 16:22	|1.8 min  |1GB
-app-20210601162434-0004|example.py	|1	|1|1024.0 MB|  01/06/2021 16:24	|3.4 min  |1GB
-app-20210601183914-0005|example.py	|9	|9|500.0 MB|   01/06/2021 18:39	|50 s	  |1.35GB
-app-20210601184031-0006|example.py	|5	|5|500.0 MB|   01/06/2021 18:40	|1.2 min  |1.35GB
-app-20210601184208-0007|example.py	|3	|3|500.0 MB|   01/06/2021 18:42	|1.7 min  |1.35GB
-app-20210601184418-0008|example.py	|2	|2|500.0 MB|   01/06/2021 18:44	|2.4 min  |1.35GB
-app-20210601184708-0009|example.py	|1	|1|500.0 MB|   01/06/2021 18:47	|4.5 min  |1.35GB
-app-20210601182601-0000|example.py	|9	|9|1024.0 MB|  01/06/2021 18:26	|49 s	  |1.35GB
-app-20210601182719-0001|example.py	|5	|5|1024.0 MB|  01/06/2021 18:27	|1.2 min  |1.35GB
-app-20210601182857-0002|example.py	|3	|3|1024.0 MB|  01/06/2021 18:28	|1.7 min  |1.35GB
-app-20210601183107-0003|example.py	|2	|2|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1.35GB
-app-20210601183406-0004|example.py	|1	|1|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.35GB
+Application ID         | Name	        |Instance type|Cores	|Nodes|Memory per Executor    |Submitted Time	|Duration |Size
+-----------------------|----------------|-------------|-------|------------|-----------|-------------------|---------|----
+app-20210601171042-0000| example.py	|t2.micro|9	|9 |1024.0 MB  |01/06/2021 17:10	|29 s	  |500MB
+app-20210601171133-0001| example.py	|t2.micro|5	|5|1024.0 MB  |01/06/2021 17:11	|36 s	  |500MB
+app-20210601171237-0002 |example.py	|t2.micro|3	|3|1024.0 MB|  01/06/2021 17:12	|45 s	  |500MB
+app-20210601171408-0003 |example.py	|t2.micro|2	|2|1024.0 MB|  01/06/2021 17:14	|60 s	  |500MB
+app-20210601171607-0004 |example.py	|t2.micro|1	|1|1024.0 MB|  01/06/2021 17:16	|1.7 min  |500MB
+app-20210601172146-0000|example.py	|t2.micro|9	|9|500.0 MB|   01/06/2021 17:21	|49 s	  |1GB
+app-20210601172321-0001|example.py	|t2.micro|5	|5|500.0 MB|   01/06/2021 17:23	|1 min	  |1GB
+app-20210601172508-0002|example.py	|t2.micro|3	|3|500.0 MB|   01/06/2021 17:25	|1.3 min  |1GB
+app-20210601172653-0003|example.py	|t2.micro|2	|2|500.0 MB|   01/06/2021 17:26	|1.8 min  |1GB
+app-20210601172915-0004|example.py	|t2.micro|1	|1|500.0 MB|   01/06/2021 17:29	|3.4 min  |1GB
+app-20210601161732-0000|example.py	|t2.micro|9	|9|1024.0 MB|  01/06/2021 16:17	|42 s	  |1GB
+app-20210601161901-0001|example.py	|t2.micro|5	|5|1024.0 MB|  01/06/2021 16:19	|59 s	  |1GB
+app-20210601162029-0002|example.py	|t2.micro|3	|3|1024.0 MB|  01/06/2021 16:20	|1.3 min  |1GB
+app-20210601162215-0003|example.py	|t2.micro|2	|2|1024.0 MB|  01/06/2021 16:22	|1.8 min  |1GB
+app-20210601162434-0004|example.py	|t2.micro|1	|1|1024.0 MB|  01/06/2021 16:24	|3.4 min  |1GB
+app-20210601183914-0005|example.py	|t2.micro|9	|9|500.0 MB|   01/06/2021 18:39	|50 s	  |1.35GB
+app-20210601184031-0006|example.py	|t2.micro|5	|5|500.0 MB|   01/06/2021 18:40	|1.2 min  |1.35GB
+app-20210601184208-0007|example.py	|t2.micro|3	|3|500.0 MB|   01/06/2021 18:42	|1.7 min  |1.35GB
+app-20210601184418-0008|example.py	|t2.micro|2	|2|500.0 MB|   01/06/2021 18:44	|2.4 min  |1.35GB
+app-20210601184708-0009|example.py	|t2.micro|1	|1|500.0 MB|   01/06/2021 18:47	|4.5 min  |1.35GB
+app-20210601182601-0000|example.py	|t2.micro|9	|9|1024.0 MB|  01/06/2021 18:26	|49 s	  |1.35GB
+app-20210601182719-0001|example.py	|t2.micro|5	|5|1024.0 MB|  01/06/2021 18:27	|1.2 min  |1.35GB
+app-20210601182857-0002|example.py	|t2.micro|3	|3|1024.0 MB|  01/06/2021 18:28	|1.7 min  |1.35GB
+app-20210601183107-0003|example.py	|t2.micro|2	|2|1024.0 MB|  01/06/2021 18:31	|2.5 min  |1.35GB
+app-20210601183406-0004|example.py	|t2.micro|1	|1|1024.0 MB|  01/06/2021 18:34	|4.6 min  |1.35GB
 
 
 # Interfaccia in Django per query con AWS Athena su S3
